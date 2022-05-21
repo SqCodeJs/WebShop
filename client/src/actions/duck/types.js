@@ -1,0 +1,18 @@
+const ADD_NAME = "ADD_NAME";
+const DELETE_NAME = "DELETE_NAME";
+const EDIT_NAME = "EDIT_NAME";
+const MOUNT = "MOUNT";
+const TOGGLE = "TOGGLE";
+const SET_LOG_INFO = "SET_LOG_INFO";
+const ADD_TO_BASKET = "ADD_TO_BASKET";
+const SET_USER = "SET_USER";
+export {
+  ADD_NAME,
+  DELETE_NAME,
+  EDIT_NAME,
+  MOUNT,
+  TOGGLE,
+  SET_USER,
+  SET_LOG_INFO,
+  ADD_TO_BASKET,
+};
