@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { ColumnWrapp, Wrapp, Title } from "./../../../utils/styledComponents";
+import { ColumnWrapp, Wrapp, Title } from "../../../utils/styledComponents";
 
 import Strap from "../Straps/Strap";
 import Navigation from "../Navigation/components/Navigation";
 import renderFooterNavigation from "../Navigation/render/renderFooterNavigation";
-import { call, mail, watch } from "./../../../utils/icon";
+import { call, mail, watch } from "../../../utils/icon";
 import { device } from "../../../utils/device";
 
 const WrappFooter = styled(Wrapp)`
@@ -106,51 +106,51 @@ const Columns = styled(ColumnWrapp)`
   width: 30%;
 `;
 
-const Footer = () => {
-  return (
-    <WrappFooter>
-      <Strap />
-      <Row>
-        <Columns>
-          <SectionTitle>Navigacja</SectionTitle>
-          <Navigation render={renderFooterNavigation} />
-        </Columns>
-        <Columns>
-          <SectionTitle>kontakt</SectionTitle>
+const Footer: React.FC = () => { 
+    return (
+        <WrappFooter>
+            <Strap />
+            <Row>
+                <Columns>
+                    <SectionTitle>Navigacja</SectionTitle>
+                    <Navigation render={renderFooterNavigation} />
+                </Columns>
+                <Columns>
+                    <SectionTitle>kontakt</SectionTitle>
 
-          <Columns>
-            <Row>
-              <IconBox> {call} </IconBox>
-              <ContactTitile>888121121</ContactTitile>
+                    <Columns>
+                        <Row>
+                            <IconBox> {call} </IconBox>
+                            <ContactTitile>888121121</ContactTitile>
+                        </Row>
+                        <Row>
+                            <IconBox> {mail}</IconBox>
+                            <ContactTitile>sklep.support@gmail.com</ContactTitile>
+                        </Row>
+                        <Row>
+                            <IconBox> {watch}</IconBox>
+                            <ContactTitile>8:30-18:30</ContactTitile>
+                        </Row>
+                    </Columns>
+                </Columns>
+                <Columns>
+                    <Row>
+                        <LogoButton
+                            onClick={() => {
+                                document.body.scrollTop = 0;
+                                document.documentElement.scrollTop = 0;
+                            }}
+                        >
+                            Sklep
+                        </LogoButton>
+                    </Row>
+                </Columns>
             </Row>
             <Row>
-              <IconBox> {mail}</IconBox>
-              <ContactTitile>sklep.support@gmail.com</ContactTitile>
+                <Privacy>2021 Sklep</Privacy>
             </Row>
-            <Row>
-              <IconBox> {watch}</IconBox>
-              <ContactTitile>8:30-18:30</ContactTitile>
-            </Row>
-          </Columns>
-        </Columns>
-        <Columns>
-          <Row>
-            <LogoButton
-              onClick={() => {
-                document.body.scrollTop = 0;
-                document.documentElement.scrollTop = 0;
-              }}
-            >
-              Sklep
-            </LogoButton>
-          </Row>
-        </Columns>
-      </Row>
-      <Row>
-        <Privacy>2021 Sklep</Privacy>
-      </Row>
-    </WrappFooter>
-  );
+        </WrappFooter>
+    );
 };
 
 export default Footer;
