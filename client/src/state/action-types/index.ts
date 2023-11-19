@@ -1,0 +1,10 @@
+export enum ActionType {
+    ADD_NAME = "ADD_NAME",
+    DELETE_NAME = "DELETE_NAME",
+    EDIT_NAME = "EDIT_NAME",
+    MOUNT = "MOUNT",
+    TOGGLE = "TOGGLE",
+    SET_LOG_INFO = "SET_LOG_INFO",
+    ADD_TO_BASKET = "ADD_TO_BASKET",
+    SET_USER = "SET_USER",
+}

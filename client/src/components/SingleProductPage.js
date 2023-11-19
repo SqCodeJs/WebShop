@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import {
-  Container,
-  Title,
-  Wrapp,
-  Description,
+    Container,
+    Title,
+    Wrapp,
+    Description,
 } from "../utils/styledComponents";
 import { device } from "../utils/device";
 import { useParams } from "react-router-dom";
-import { addToBasket } from "../actions/basketActions";
+import { addToBasket } from "../state/actions/basketActions";
 import ErrorPage from "./ErrorPage";
 
 const WrappPage = styled(Wrapp)`
@@ -101,60 +101,60 @@ const ItemTitle = styled(Title)`
   text-align: center;
 `;
 const SingleProductPage = () => {
-  const basket = useSelector((state) => state.basket);
-  const DB = useSelector((state) => state.db.products);
-  const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1);
-  const [message, setMessage] = useState(" ");
-  const { slug } = useParams();
-  console.log("s", slug);
-  const product = DB.find((element) => element.title === slug);
+    const basket = useSelector((state) => state.basket);
+    const DB = useSelector((state) => state.db.products);
+    const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(1);
+    const [message, setMessage] = useState(" ");
+    const { slug } = useParams();
+    console.log("s", slug);
+    const product = DB.find((element) => element.title === slug);
 
-  const addBasket = (product) => {
-    if (basket.some((i) => i.id === product.id)) {
-      //info do redux
-      setMessage(
-        "Produkt został juz dodany do koszyka. Aby zmienić ilość otwórz koszyk."
-      );
-      return;
-    }
+    const addBasket = (product) => {
+        if (basket.some((i) => i.id === product.id)) {
+            //info do redux
+            setMessage(
+                "Produkt został juz dodany do koszyka. Aby zmienić ilość otwórz koszyk."
+            );
+            return;
+        }
 
-    dispatch(addToBasket({ ...product, quantity: quantity }));
-    setMessage("Dodano produkt do koszyka.");
-  };
+        dispatch(addToBasket({ ...product, quantity: quantity }));
+        setMessage("Dodano produkt do koszyka.");
+    };
 
-  if (product === undefined) return <ErrorPage />;
-  return (
-    <>
-      <WrappPage>
-        <RowPage>
-          <ImageContainer>
-            <Img src={product.image} />
-          </ImageContainer>
-          <DescriptionContainer>
-            <ItemTitle>{product.title}</ItemTitle>
+    if (product === undefined) return <ErrorPage />;
+    return (
+        <>
+            <WrappPage>
+                <RowPage>
+                    <ImageContainer>
+                        <Img src={product.image} />
+                    </ImageContainer>
+                    <DescriptionContainer>
+                        <ItemTitle>{product.title}</ItemTitle>
 
-            <ItemDescription>{product.description}</ItemDescription>
+                        <ItemDescription>{product.description}</ItemDescription>
 
-            <DescriptionPrice>Cena: {product.price} zł</DescriptionPrice>
-            <Input
-              type="number"
-              value={quantity}
-              min="1"
-              max="100"
-              onChange={(e) => setQuantity(+e.target.value)}
-            />
-            <Button onClick={() => addBasket(product)}>dodaj do koszyka</Button>
-            <MessageDescription>{message}</MessageDescription>
-          </DescriptionContainer>
-        </RowPage>
-      </WrappPage>
-    </>
-  );
+                        <DescriptionPrice>Cena: {product.price} zł</DescriptionPrice>
+                        <Input
+                            type="number"
+                            value={quantity}
+                            min="1"
+                            max="100"
+                            onChange={(e) => setQuantity(+e.target.value)}
+                        />
+                        <Button onClick={() => addBasket(product)}>dodaj do koszyka</Button>
+                        <MessageDescription>{message}</MessageDescription>
+                    </DescriptionContainer>
+                </RowPage>
+            </WrappPage>
+        </>
+    );
 };
 SingleProductPage.propTypes = {
-  DB: PropTypes.array,
-  setBasket: PropTypes.func,
+    DB: PropTypes.array,
+    setBasket: PropTypes.func,
 };
 
 export default SingleProductPage;

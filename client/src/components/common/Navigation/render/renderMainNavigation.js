@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { hamburgerActions } from "../../../../actions/flagsActions";
+import { toggleFlag } from "../../../../state/actions/flagsActions";
 import { device } from "../../../../utils/device";
 import { useDispatch } from "react-redux";
 
@@ -183,30 +183,30 @@ const IconBox = styled.div`
 `;
 
 function RenderMainNavigation({ nav, hamburger }) {
-  const dispatch = useDispatch();
-  const navigation = nav.map((item) => (
-    <LiStyled
-      key={item.name}
-      onClick={() => dispatch(hamburgerActions.toggle(!hamburger))}
-    >
-      <LinkStyl to={item.path}>
-        <IconBox> {item.icon}</IconBox>
-        <Column>
-          <Paragraf>{item.name}</Paragraf>
-          <Description>{item.description}</Description>
-        </Column>
-      </LinkStyl>
-    </LiStyled>
-  ));
+    const dispatch = useDispatch();
+    const navigation = nav.map((item) => (
+        <LiStyled
+            key={item.name}
+            onClick={() => dispatch(toggleFlag('navigation'))}
+        >
+            <LinkStyl to={item.path}>
+                <IconBox> {item.icon}</IconBox>
+                <Column>
+                    <Paragraf>{item.name}</Paragraf>
+                    <Description>{item.description}</Description>
+                </Column>
+            </LinkStyl>
+        </LiStyled>
+    ));
 
-  return (
-    <>
-      <Container toggle={hamburger}>
-        <Nav>
-          <UlStyled>{navigation}</UlStyled>
-        </Nav>
-      </Container>
-    </>
-  );
+    return (
+        <>
+            <Container toggle={hamburger}>
+                <Nav>
+                    <UlStyled>{navigation}</UlStyled>
+                </Nav>
+            </Container>
+        </>
+    );
 }
 export default RenderMainNavigation;

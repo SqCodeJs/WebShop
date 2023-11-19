@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector, connect } from "react-redux";
 import axios from "axios";
-import { loginAction } from "../actions/accountActions";
+import { loginAction } from "../state/actions/accountActions";
 import { withRouter, useHistory } from "react-router-dom";
 import AuthWrapper from "../auth/AuthWrapper";
 import { REDIRECT_USER_PANEL } from "./../constants/redirect";
@@ -88,64 +88,64 @@ const LoginParagraf = styled(Paragraf)`
   color: #2d9ae8;
 `;
 const Login = ({ history }) => {
-  const loginMessage = useSelector((state) => state.message.loginMessage);
-  const [data, setData] = useState({});
-  const dispatch = useDispatch();
-  const a = useHistory();
+    const loginMessage = useSelector((state) => state.message.loginMessage);
+    const [data, setData] = useState({});
+    const dispatch = useDispatch();
+    const a = useHistory();
 
-  //   console.log("useParams", a);
-  const setFormData = (e) =>
-    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    //   console.log("useParams", a);
+    const setFormData = (e) =>
+        setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  return (
-    <WrappLogin>
-      <ContainerLogin>
-        <TitleLogin>Zaloguj się</TitleLogin>
-        <Input
-          type="text"
-          placeholder="Mail"
-          name="mail"
-          value={data.mail || ""}
-          onChange={setFormData}
-        />
-        <Input
-          type="password"
-          placeholder="Hasło"
-          name="password"
-          value={data.password || ""}
-          onChange={setFormData}
-        />
+    return (
+        <WrappLogin>
+            <ContainerLogin>
+                <TitleLogin>Zaloguj się</TitleLogin>
+                <Input
+                    type="text"
+                    placeholder="Mail"
+                    name="mail"
+                    value={data.mail || ""}
+                    onChange={setFormData}
+                />
+                <Input
+                    type="password"
+                    placeholder="Hasło"
+                    name="password"
+                    value={data.password || ""}
+                    onChange={setFormData}
+                />
 
-        <Button
-          onClick={() => {
-            dispatch(loginAction(data)).then(
-              (res) => {
-                history.goBack();
-              },
-              (err) => {}
-            );
+                <Button
+                    onClick={() => {
+                        dispatch(loginAction(data)).then(
+                            (res) => {
+                                history.goBack();
+                            },
+                            (err) => { }
+                        );
 
-            setData({});
-          }}
-        >
-          Zaloguj się
-        </Button>
-        <LoginParagraf>{loginMessage}</LoginParagraf>
-        <RowLogin>
-          <Paragraf>Nie masz konta?</Paragraf>
-          <LinkStyled to="/register">
-            <RegisterButton>ZAREJESTRUJ SIĘ</RegisterButton>
-          </LinkStyled>
-        </RowLogin>
-      </ContainerLogin>
-    </WrappLogin>
-  );
+                        setData({});
+                    }}
+                >
+                    Zaloguj się
+                </Button>
+                <LoginParagraf>{loginMessage}</LoginParagraf>
+                <RowLogin>
+                    <Paragraf>Nie masz konta?</Paragraf>
+                    <LinkStyled to="/register">
+                        <RegisterButton>ZAREJESTRUJ SIĘ</RegisterButton>
+                    </LinkStyled>
+                </RowLogin>
+            </ContainerLogin>
+        </WrappLogin>
+    );
 };
 
 Login.propTypes = {
-  data: PropTypes.object,
-  setData: PropTypes.func,
-  log: PropTypes.object,
-  setLog: PropTypes.func,
+    data: PropTypes.object,
+    setData: PropTypes.func,
+    log: PropTypes.object,
+    setLog: PropTypes.func,
 };
 export default withRouter(AuthWrapper([REDIRECT_USER_PANEL])(Login));

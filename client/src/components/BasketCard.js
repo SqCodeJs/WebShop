@@ -82,31 +82,31 @@ const IconBox = styled.div`
 `;
 
 const BasketCard = ({ basket, setIsHover, removeItem }) => {
-  const cardItems = basket.map((item) => (
-    <Good key={item.id}>
-      <Img src={item.image} />
-      <GoodTitle>{item.title}</GoodTitle>
+    const cardItems = basket?.map((item) => (
+        <Good key={item.id}>
+            <Img src={item.image} />
+            <GoodTitle>{item.title}</GoodTitle>
 
-      <DescriptionItem>cena jednostkowa: {item.price} zł</DescriptionItem>
+            <DescriptionItem>cena jednostkowa: {item.price} zł</DescriptionItem>
 
-      <DescriptionItem>ilość {item.quantity}</DescriptionItem>
-      <IconBox>
-        <Button onClick={() => removeItem(item.id)}>{trash}</Button>
-      </IconBox>
-    </Good>
-  ));
-  return (
-    <BasketWrapp
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
-      <WrappCard>{basket.length === 0 ? <EmptyBasket /> : cardItems}</WrappCard>
-    </BasketWrapp>
-  );
+            <DescriptionItem>ilość {item.quantity}</DescriptionItem>
+            <IconBox>
+                <Button onClick={() => removeItem(item.id)}>{trash}</Button>
+            </IconBox>
+        </Good>
+    ));
+    return (
+        <BasketWrapp
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+        >
+            <WrappCard>{basket.length === 0 ? <EmptyBasket /> : cardItems}</WrappCard>
+        </BasketWrapp>
+    );
 };
 BasketCard.propTypes = {
-  basket: PropTypes.array,
-  setIsHover: PropTypes.func,
-  removeItem: PropTypes.func,
+    basket: PropTypes.array,
+    setIsHover: PropTypes.func,
+    removeItem: PropTypes.func,
 };
 export default BasketCard;
