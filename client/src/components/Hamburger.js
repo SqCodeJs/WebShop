@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { device } from "../utils/device";
-import { hamburgerActions } from "../actions/flagsActions";
+import { toggleFlag } from "../state/actions/flagsActions";
 
 const HamburgerWrapp = styled.div`
   width: 30px;
@@ -39,7 +39,7 @@ transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
     transform-origin: 0% 0%;
 
     transform: ${(props) =>
-      props.toggle ? "rotate(45deg) translate(-2px, -1px)" : "rotate(0)"};
+        props.toggle ? "rotate(45deg) translate(-2px, -1px)" : "rotate(0)"};
   }
   &:nth-last-child(2) {
     transform-origin: 0% 100%;
@@ -47,7 +47,7 @@ transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
   }
   &:nth-child(3) {
     transform: ${(props) =>
-      props.toggle ? "rotate(-45deg) translate(-2px, -4px)" : "rotate(0) "};
+        props.toggle ? "rotate(-45deg) translate(-2px, -4px)" : "rotate(0) "};
   }
 `;
 const Button = styled.button`
@@ -99,21 +99,20 @@ const HamburgerButton = styled(Button)`
   }
 `;
 const Hamburger = () => {
-  const hamburger = useSelector((state) => state.flags.hamburger);
-  console.log("hamburger", hamburger);
-  const dispatch = useDispatch();
-  return (
-    <HamburgerWrapp>
-      <HamburgerButton
-        toggle={hamburger}
-        onClick={() => dispatch(hamburgerActions.toggle(!hamburger))}
-      >
-        <Span toggle={hamburger}></Span>
-        <Span toggle={hamburger}></Span>
-        <Span toggle={hamburger}></Span>
-      </HamburgerButton>
-    </HamburgerWrapp>
-  );
+    const navigation = useSelector((state) => state.flags.navigation);
+    const dispatch = useDispatch();
+    return (
+        <HamburgerWrapp>
+            <HamburgerButton
+                toggle={navigation}
+                onClick={() => dispatch(toggleFlag('navigation'))}
+            >
+                <Span toggle={navigation}></Span>
+                <Span toggle={navigation}></Span>
+                <Span toggle={navigation}></Span>
+            </HamburgerButton>
+        </HamburgerWrapp>
+    );
 };
 
 export default Hamburger;

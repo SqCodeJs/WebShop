@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { hamburgerActions } from "../actions/flagsActions";
+import { toggleFlag } from "../state/actions/flagsActions";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Wrapp } from "../utils/styledComponents";
@@ -54,7 +54,7 @@ const Input = styled.input`
   color: rgb(128, 128, 128);
   letter-spacing: 1px;
   border-radius: ${(props) =>
-    props.borderBottom.length > 2 ? " 10px 10px 0 0" : "30px"};
+        props.borderBottom.length > 2 ? " 10px 10px 0 0" : "30px"};
   &:focus {
     outline: none;
   }
@@ -102,50 +102,50 @@ const SearchBox = styled.div`
   }
 `;
 const SearchBar = ({ hamburger, db }) => {
-  const [suggestionList, setSugestionList] = useState([]);
-  const [input, setInput] = useState("");
+    const [suggestionList, setSugestionList] = useState([]);
+    const [input, setInput] = useState("");
 
-  const handleInputchange = (e) => setInput(e.target.value);
-  const setAutocompleteList = (e) => {
-    handleInputchange(e);
+    const handleInputchange = (e) => setInput(e.target.value);
+    const setAutocompleteList = (e) => {
+        handleInputchange(e);
 
-    const finalElements = db.filter((elem) =>
-      elem.title.toLowerCase().includes(input)
+        const finalElements = db.filter((elem) =>
+            elem.title.toLowerCase().includes(input)
+        );
+        setSugestionList(finalElements);
+    };
+    return (
+        <Wrapper>
+            <Container>
+                <SearchBox>
+                    <Input
+                        type="text"
+                        name=""
+                        id=""
+                        placeholder="search"
+                        value={input}
+                        onChange={(e) => setAutocompleteList(e)}
+                        borderBottom={input}
+                    />
+
+                    <Autocomplete
+                        input={input}
+                        setInput={setInput}
+                        suggestionList={suggestionList}
+                    />
+                </SearchBox>
+            </Container>
+        </Wrapper>
     );
-    setSugestionList(finalElements);
-  };
-  return (
-    <Wrapper>
-      <Container>
-        <SearchBox>
-          <Input
-            type="text"
-            name=""
-            id=""
-            placeholder="search"
-            value={input}
-            onChange={(e) => setAutocompleteList(e)}
-            borderBottom={input}
-          />
-
-          <Autocomplete
-            input={input}
-            setInput={setInput}
-            suggestionList={suggestionList}
-          />
-        </SearchBox>
-      </Container>
-    </Wrapper>
-  );
 };
 
 SearchBar.propTypes = {
-  hamburger: PropTypes.bool,
-  hamburgerToggle: PropTypes.func,
+    hamburger: PropTypes.bool,
+    hamburgerToggle: PropTypes.func,
 };
-const mapDispatchProps = { hamburgerActions };
+const mapDispatchProps = { toggleFlag };
 const mapStateToProps = (state) => ({
-  db: state.db.products,
-  hamburger: state.flags.hamburger,
+    products: state.products,
+    navigation: state.flags.navigation,
 });
 export default connect(mapStateToProps, mapDispatchProps)(SearchBar);

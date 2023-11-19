@@ -65,23 +65,23 @@ const Sample = styled.div`
 `;
 
 const LastAdd = () => {
-  const products = useSelector((state) => state.db.products);
+    const products = useSelector((state) => state.products);
 
-  const randomIndexes = getRanomIndex(products.length, 12);
-  const randomProducts = selectByRandomIndex(products, randomIndexes);
+    const randomIndexes = getRanomIndex(products.length, 12);
+    const randomProducts = selectByRandomIndex(products, randomIndexes);
 
-  const renderList = () =>
-    randomProducts.map((product) => (
-      <Sample key={product.id}>
-        <ProductSampel product={product} />
-      </Sample>
-    ));
-  return (
-    <Container>
-      <GalleryTitle>Ostatnio dodane</GalleryTitle>
-      <Wrapper> {renderList()}</Wrapper>
-    </Container>
-  );
+    const renderList = () =>
+        randomProducts.map((product) => (
+            <Sample key={product.id}>
+                <ProductSampel product={product} />
+            </Sample>
+        ));
+    return (
+        <Container>
+            <GalleryTitle>Ostatnio dodane</GalleryTitle>
+            <Wrapper> {renderList()}</Wrapper>
+        </Container>
+    );
 };
 
 export default LastAdd;

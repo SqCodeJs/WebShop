@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { hamburgerActions } from "../../../../actions/flagsActions";
+import { toggleFlag } from "../../../../state/actions/flagsActions";
 import { device } from "../../../../utils/device";
 import { useDispatch } from "react-redux";
 import { NavigationList } from '../../../../types/types';
 
-const Container = styled.div<{ toggle: boolean; }>`
+const Container = styled.div<{ toggle: boolean }>`
     border: 2px solid #2d9ae8;
     position: fixed;
     display: flex;
@@ -18,7 +18,7 @@ const Container = styled.div<{ toggle: boolean; }>`
     @media ${device.default} {
         width: 100%;
         top: 0;
-        left: ${(props) => (props.toggle ? "0" : "-100%")};
+        left: ${(props: { toggle: boolean }) => (props.toggle ? "0" : "-100%")};
     }
 
     @media ${device.tablet} {
@@ -214,7 +214,7 @@ const RenderMainNavigation: React.FC<Props> = ({ nav, hamburger }) => {
     const navigation = nav.map((item) => (
         <LiStyled
             key={item.name}
-            onClick={() => dispatch(hamburgerActions.toggle(!hamburger))}
+            onClick={() => dispatch(toggleFlag('navigation'))}
         >
             <LinkStyl to={item.path}>
                 <IconBox> {item.icon}</IconBox>

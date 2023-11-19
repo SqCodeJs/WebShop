@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { device } from "../utils/device";
 import { getRanomIndex, selectByRandomIndex } from "../helpers/functions";
@@ -38,33 +37,30 @@ const ProductBox = styled.div`
   }
 `;
 const Gallery = ({ DB }) => {
-  const random = getRanomIndex(DB.length, 3);
+    const random = getRanomIndex(DB.length, 3);
 
-  const treeRandomProucts = selectByRandomIndex(DB, random);
-  const [randomProducts, setRandomProducts] = useState([]);
-  useEffect(() => {
-    setRandomProducts(treeRandomProucts);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const treeRandomProucts = selectByRandomIndex(DB, random);
+    const [randomProducts, setRandomProducts] = useState([]);
+    useEffect(() => {
+        setRandomProducts(treeRandomProucts);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  return (
-    <>
-      <Container>
-        {randomProducts &&
-          [...randomProducts].map((product) => (
-            <ProductBox key={product.id}>
-              <ProductSampel product={product} />
-            </ProductBox>
-          ))}
-      </Container>
-    </>
-  );
+    return (
+        <>
+            <Container>
+                {randomProducts &&
+                    [...randomProducts].map((product) => (
+                        <ProductBox key={product.id}>
+                            <ProductSampel product={product} />
+                        </ProductBox>
+                    ))}
+            </Container>
+        </>
+    );
 };
 
-Gallery.propTypes = {
-  DB: PropTypes.array,
-};
 const mapStateToProps = (state) => ({
-  DB: state.db.products,
+    products: state.products,
 });
 export default connect(mapStateToProps, {})(Gallery);

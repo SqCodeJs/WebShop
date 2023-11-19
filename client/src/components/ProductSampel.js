@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Position } from "../utils/styledComponents";
 import { device } from "../utils/device";
-import { hamburgerActions } from "../actions/flagsActions";
+import { toggleFlag } from "../state/actions/flagsActions";
 import { useDispatch } from "react-redux";
 const SampelImg = styled.img`
   width: 60%;
@@ -81,24 +81,24 @@ const ProductTitle = styled.p`
 `;
 
 const ProductSampel = ({ product }) => {
-  const dispatch = useDispatch();
-  return (
-    <Sampel>
-      <Wrapper>
-        <SampelImg src={product.image} alt={product.title} />
-        <ProductTitle>{product.title}</ProductTitle>
-        <ProductLink
-          to={`/${product.cat}/${product.title}`}
-          onClick={() => dispatch(hamburgerActions.toggle(false))}
-        >
-          <Position>Kup Teraz</Position>
-        </ProductLink>
-      </Wrapper>
-    </Sampel>
-  );
+    const dispatch = useDispatch();
+    return (
+        <Sampel>
+            <Wrapper>
+                <SampelImg src={product.image} alt={product.title} />
+                <ProductTitle>{product.title}</ProductTitle>
+                <ProductLink
+                    to={`/${product.cat}/${product.title}`}
+                    onClick={() => dispatch(toggleFlag('navigation'))}
+                >
+                    <Position>Kup Teraz</Position>
+                </ProductLink>
+            </Wrapper>
+        </Sampel>
+    );
 };
 
 ProductSampel.propTypes = {
-  product: PropTypes.object,
+    product: PropTypes.object,
 };
 export default ProductSampel;

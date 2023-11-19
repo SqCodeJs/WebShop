@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Navigation from "./common/Navigation/components/Navigation";
 import Slider from "./Slider";
 import { connect } from "react-redux";
-import { hamburgerActions } from "../actions/flagsActions";
+import { toggleFlag } from "../state/actions/flagsActions";
 
 const Wrapp = styled.div`
   width: 100%;
@@ -31,20 +31,18 @@ const Wrapp = styled.div`
 `;
 
 const Main = ({ hamburger }) => {
-  return (
-    <Wrapp>
-      <Navigation hamburger={hamburger} render={renderMainNavigation} />
-
-      <Slider />
-    </Wrapp>
-  );
+    return (
+        <Wrapp>
+            <Navigation hamburger={hamburger} render={renderMainNavigation} />
+            <Slider />
+        </Wrapp>
+    );
 };
 
-Main.propTypes = {
-  hamburger: PropTypes.bool,
-};
-const mapDispatchToProps = { hamburgerActions };
+const mapDispatchToProps = { toggleFlag };
+
 const mapStateToProps = (state) => ({
-  hamburger: state.flags.hamburger,
+    navigation: state.flags.navigation,
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

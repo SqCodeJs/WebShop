@@ -58,69 +58,65 @@ const HeaderWrapp = styled.div`
   flex-direction: column;
 `;
 const Home = () => {
-  const { basket, account } = useSelector((state) => state);
-  const { isAuthenticated } = account;
-  const { accessToken } = account.user;
-  console.log("basket", basket);
-  return (
-    <Router>
-      <AppWrapper>
-        <HeaderWrapp>
-          <Header />
-          <SearchBar />
-        </HeaderWrapp>
-        <Wrapp>
-          <Switch>
-            <Route
-              path="/"
-              exact
-              render={() => (
-                <>
-                  <Hamburger />
-                  <Main />
+    return (
+        <Router>
+            <AppWrapper>
+                <HeaderWrapp>
+                    {/* <Header />
+                    <SearchBar /> */}
+                </HeaderWrapp>
+                <Wrapp>
+                    <Switch>
+                        <Route
+                            path="/"
+                            exact
+                            render={() => (
+                                <>
+                                    {/* <Hamburger />
+                                    <Main />
 
-                  <Gallery />
-                  <Columns />
-                  <Newsletter />
-                  <LastAdd />
-                </>
-              )}
-            />
-            <Route
-              path="/userpanel"
-              render={() => (
-                <UserPanel
-                  isAuthenticated={isAuthenticated}
-                  accessToken={accessToken}
-                />
-              )}
-            />
-            <Route
-              path="/login"
-              render={() => <Login isAuthenticated={isAuthenticated} />}
-            />
-            <Route path="/register" exact render={() => <Register />} />
+                                    <Gallery />
+                                    <Columns />
+                                    <Newsletter />
+                                    <LastAdd /> */}
+                                </>
+                            )}
+                        />
+                        {/* <Route
+                            path="/userpanel"
+                            render={() => (
+                                <UserPanel
+                                    isAuthenticated={isAuthenticated}
+                                    accessToken={accessToken}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/login"
+                            render={() => <Login isAuthenticated={isAuthenticated} />}
+                        />
+                        <Route path="/register" exact render={() => <Register />} />
 
-            <Route
-              path="/card"
-              render={() => <YourCard basket={basket} render={MainCard} />}
-            />
+                        <Route
+                            path="/card"
+                            render={() => <YourCard basket={basket} render={MainCard} />}
+                        /> */}
 
-            <Route path="/:path" exact children={() => <ProductsLibrary />} />
-            <Route path="/:path/:slug" children={<SingleProductPage />} />
-            <Route component={ErrorPage} />
-          </Switch>
-        </Wrapp>
-        <Footer />
-      </AppWrapper>
-    </Router>
-  );
+                        <Route path="/:path" exact children={() => <ProductsLibrary />} />
+                        <Route path="/:path/:slug" children={<SingleProductPage />} />
+                        <Route component={ErrorPage} />
+                    </Switch>
+                </Wrapp>
+                <Footer />
+            </AppWrapper>
+        </Router>
+    );
 };
 
 Home.propTypes = {
-  DB: PropTypes.array,
-  basket: PropTypes.array,
-  setBasket: PropTypes.func,
+    DB: PropTypes.array,
+    basket: PropTypes.array,
+    setBasket: PropTypes.func,
 };
 
 export default Home;
