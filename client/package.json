@@ -9,6 +9,8 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
     "axios": "^0.23.0",
     "mysql2": "^3.6.3",
     "react": "^17.0.2",
@@ -49,6 +51,16 @@
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.30",
-    "@types/redux-thunk": "^2.1.0"
+  "@types/redux-thunk": "^2.1.0",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.9.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.30",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
   }
 }

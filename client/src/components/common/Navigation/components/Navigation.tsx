@@ -1,4 +1,5 @@
 import "typeface-roboto";
+import React from "react";
 import {
   laptop,
   electronics,
@@ -7,10 +8,23 @@ import {
   audio,
   watch,
   camera,
-} from "./../../../../utils/icon";
+} from "../../../../utils/icon";
 
-const Navigation = (props) => {
-  const navList = [
+interface NavigationList {
+  name: string;
+  path: string;
+  category: string;
+  description: string;
+  icon: React.JSX.Element;
+  exact?: boolean;
+}
+
+interface Props {
+  render: (props: { nav: NavigationList[] }) => React.ReactNode;
+}
+
+const Navigation: React.FC<Props> = (props) => {
+  const navList: NavigationList[] = [
     {
       name: "Laptopy i Akcesoria",
       path: "/laptops",
@@ -63,7 +77,7 @@ const Navigation = (props) => {
     },
   ];
 
-  return props.render({ nav: navList, ...props });
+  return <>{props.render({ nav: navList })}</>;
 };
 
 export default Navigation;
