@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { toggleFlag } from "../state/actions/flagsActions";
+import { toggleFlag } from "../../../state/actions/flagsActions";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Wrapp } from "../utils/styledComponents";
-import { device } from "../utils/device";
-import Autocomplete from "./Autocomplete";
+import { Wrapp } from "../../../utils/styledComponents";
+import { device } from "../../../utils/device";
+import Autocomplete from "../../Autocomplete";
 
 const Container = styled.div`
   background-color: transparent;
