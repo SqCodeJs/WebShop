@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { toggleFlag } from "../../../../state/actions/flagsActions";
 import { device } from "../../../../utils/device";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavigationList } from '../../../../types/types';
+import { RootState } from "../../../../state/reducers/rootReducer";
 
-const Container = styled.div<{ toggle: boolean }>`
+const Container = styled.div<{ isOpenNav: boolean; }>`
     border: 2px solid #2d9ae8;
     position: fixed;
     display: flex;
@@ -18,7 +19,7 @@ const Container = styled.div<{ toggle: boolean }>`
     @media ${device.default} {
         width: 100%;
         top: 0;
-        left: ${(props: { toggle: boolean }) => (props.toggle ? "0" : "-100%")};
+        left: ${(props) => (props.isOpenNav ? "0" : "-100%")};
     }
 
     @media ${device.tablet} {
@@ -206,15 +207,16 @@ const IconBox = styled.div`
 
 interface Props {
     nav: NavigationList[];
-    hamburger: boolean;
 }
 
-const RenderMainNavigation: React.FC<Props> = ({ nav, hamburger }) => {
+const RenderMainNavigation: React.FC<Props> = ({ nav }) => {
+    const { navigation: isOpenNav } = useSelector((state: RootState) => state.flags);
     const dispatch = useDispatch();
+
     const navigation = nav.map((item) => (
         <LiStyled
             key={item.name}
-            onClick={() => dispatch(toggleFlag('navigation'))}
+        //onClick={() => dispatch(toggleFlag('navigation'))}
         >
             <LinkStyl to={item.path}>
                 <IconBox> {item.icon}</IconBox>
@@ -227,13 +229,12 @@ const RenderMainNavigation: React.FC<Props> = ({ nav, hamburger }) => {
     ));
 
     return (
-        <>
-            <Container toggle={hamburger}>
-                <Nav>
-                    <UlStyled>{navigation}</UlStyled>
-                </Nav>
-            </Container>
-        </>
+        <Container isOpenNav={isOpenNav}>
+            <Nav>
+                <UlStyled>{navigation}</UlStyled>
+            </Nav>
+        </Container>
     );
 };
+
 export default RenderMainNavigation;

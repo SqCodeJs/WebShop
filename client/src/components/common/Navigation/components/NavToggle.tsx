@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { device } from "../utils/device";
-import { toggleFlag } from "../state/actions/flagsActions";
+import { device } from "../../../../utils/device";
+import { toggleFlag } from "../../../../state/actions/flagsActions";
+import { RootState } from "../../../../state/reducers/rootReducer";
 
 const HamburgerWrapp = styled.div`
   width: 30px;
@@ -19,7 +20,7 @@ const HamburgerWrapp = styled.div`
   }
 `;
 
-const Span = styled.span`
+const Span = styled.span<{ isOpenNav: boolean; }>`
   display: block;
   width: 100%;
   height: 4px;
@@ -39,15 +40,15 @@ transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
     transform-origin: 0% 0%;
 
     transform: ${(props) =>
-        props.toggle ? "rotate(45deg) translate(-2px, -1px)" : "rotate(0)"};
+        props.isOpenNav ? "rotate(45deg) translate(-2px, -1px)" : "rotate(0)"};
   }
   &:nth-last-child(2) {
     transform-origin: 0% 100%;
-    opacity: ${(props) => (props.toggle ? "0" : "1")};
+    opacity: ${(props) => (props.isOpenNav ? "0" : "1")};
   }
   &:nth-child(3) {
     transform: ${(props) =>
-        props.toggle ? "rotate(-45deg) translate(-2px, -4px)" : "rotate(0) "};
+        props.isOpenNav ? "rotate(-45deg) translate(-2px, -4px)" : "rotate(0) "};
   }
 `;
 const Button = styled.button`
@@ -78,7 +79,7 @@ const Button = styled.button`
     left: -50px;
   }
 `;
-const HamburgerButton = styled(Button)`
+const HamburgerButton = styled(Button) <{ isOpenNav: boolean; }>`
   position: absolute;
   background-color: transparent;
 
@@ -90,29 +91,29 @@ const HamburgerButton = styled(Button)`
   @media ${device.default} {
     width: 30px;
     height: 30px;
-    position: ${(props) => (props.toggle ? "fixed" : "absolute")};
-    left: ${(props) => (props.toggle ? "93%" : "5px")};
-    top: ${(props) => (props.toggle ? "1%" : "4px")};
+    position: ${(props) => (props.isOpenNav ? "fixed" : "absolute")};
+    left: ${(props) => (props.isOpenNav ? "93%" : "5px")};
+    top: ${(props) => (props.isOpenNav ? "1%" : "4px")};
   }
   @media ${device.tablet} {
     display: none;
   }
 `;
-const Hamburger = () => {
-    const navigation = useSelector((state) => state.flags.navigation);
+const NavToggle = () => {
+    const { navigation: isOpenNav } = useSelector((state: RootState) => state.flags);
     const dispatch = useDispatch();
     return (
         <HamburgerWrapp>
             <HamburgerButton
-                toggle={navigation}
+                isOpenNav={isOpenNav}
                 onClick={() => dispatch(toggleFlag('navigation'))}
             >
-                <Span toggle={navigation}></Span>
-                <Span toggle={navigation}></Span>
-                <Span toggle={navigation}></Span>
+                <Span isOpenNav={isOpenNav}></Span>
+                <Span isOpenNav={isOpenNav}></Span>
+                <Span isOpenNav={isOpenNav}></Span>
             </HamburgerButton>
         </HamburgerWrapp>
     );
 };
 
-export default Hamburger;
+export default NavToggle;
