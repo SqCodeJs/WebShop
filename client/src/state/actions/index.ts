@@ -18,7 +18,7 @@ interface AddToBasket {
 
 interface GetAllProducts {
     type: ActionType.MOUNT;
-    products: Item[];
+    items: Item[];
 }
 
 interface ToggleFlag {

@@ -3,17 +3,17 @@ import { ProductsAction } from '../actions';
 import { Item } from "../../../../shared/types/commonTypes";
 
 interface State {
-    products: Item[];
+    items: Item[];
 }
 
 const initialState: State = {
-    products: []
+    items: []
 };
 
 export const productsReducer = (state = initialState, action: ProductsAction) => {
     switch (action.type) {
         case ActionType.MOUNT:
-            return { ...state, products: action.products };
+            return { ...state, items: action.items };
         default:
             return state;
     }

@@ -1,57 +1,76 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
-import { toggleFlag } from "../../../../state/actions/flagsActions";
 import { device } from "../../../../utils/device";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavigationList } from '../../../../types/types';
 import { RootState } from "../../../../state/reducers/rootReducer";
 
-const Container = styled.div<{ isOpenNav: boolean; }>`
-    border: 2px solid #2d9ae8;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.2s;
-    background-color: rgb(255, 255, 255);
-    z-index: 98;
-  
-    @media ${device.default} {
-        width: 100%;
-        top: 0;
-        left: ${(props) => (props.isOpenNav ? "0" : "-100%")};
+const appear = keyframes`
+    0% {
+        opacity: 0;
     }
 
+    100% {
+        opacity: 1;
+    }
+`;
+
+const slideIn = keyframes`
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(10px);
+    }
+`;
+
+const Container = styled.div<{ isOpenNav: boolean; }>`
+    position: absolute;
+    top: 48px;
+    left:0;
+    right: 0;
+    bottom:0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color:#fafafa;
+    transition: height 0.3s ease;
+    z-index: 2;
+    background-color: #3aa0e9;
+    z-index: 2;
+
     @media ${device.tablet} {
-        margin: 2% 0;
+        padding: 10px 0;
         display: flex;
         position: static;
         flex-grow: 0;
         border-radius: 30px;
         box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        background-color: unset;
+
     }
 
     @media ${device.laptop} {
         width: 20%;
         padding: 2%;
-    }
-`;
-
-const Nav = styled.nav`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    } 
 `;
 
 const UlStyled = styled.ul`
-    color: #666;
-    width: 100%;list-style: none;
+    color: white;
+    width: 100%;
+    list-style: none;
+    padding: 20px 5px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
 
     @media ${device.tablet} {
         flex-direction: row;
+        color: #3aa0e9;
+        padding: 0 12px;
+
     }
 
     @media ${device.laptop} {
@@ -60,52 +79,51 @@ const UlStyled = styled.ul`
 `;
 
 const LiStyled = styled.li`
-    width: 100%;
+    width: 95%;
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 2px;
+    margin: 10px 0;
+    border-bottom: 1px solid white;
+    animation: 1s ${appear} forwards;
 
     &:nth-last-child(1) {
         border-bottom: none;
     }
 
-    @media ${device.default} {
-        margin: 1%;
+    @media ${device.tablet} {
+        width: auto;
+        flex-grow: 1;
     }
-
     @media ${device.laptop} {
         margin: 2px;
         border-bottom: 1px solid rgb(169, 169, 169);
     }
-
-    @media ${device.laptopL} {
-        margin: 2%;
-    }  
 
     &:hover {
         cursor: pointer;
     }
 `;
 
-const LinkStyl = styled(Link)`
-    width: 100%;
+const LinkStyl = styled(Link) <{ delay: number; }>`
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     background-color: transparent;
     text-decoration: none;
+    padding: 4px 0;
+    animation: 0.5s ${slideIn} forwards;
+    animation-delay: ${(props) => (props.delay ? `${props.delay}s` : '')};
 `;
 
 const Column = styled.div`
-    width: 0;
     flex-grow: 0;
-    display: none;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    color: #ffffff;
 
-    @media ${device.mobileM} {
-        display: flex;
-        width: 80%;
+    &:hover {
+        color: #ece8e8
+    }
+    @media ${device.tablet} {
+        color: #3aa0e9;
     }
 `;
 
@@ -119,9 +137,6 @@ const Title = styled.h2`
 `;
 
 const Paragraf = styled(Title)`
-    width: 100%;
-    margin: 2px;
-    color: #5b5b5b;
     font-weight: 400;
     letter-spacing: 1px;
     font-size: 10px;
@@ -132,27 +147,19 @@ const Paragraf = styled(Title)`
 
     @media ${device.tablet} {
         margin: 1px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     @media ${device.laptop} {
         margin: 4px 2px;
         font-size: 14px;
     }
-
-    &:hover {
-        cursor: pointer;
-        color: #2d9ae8;
-    }
 `;
 
 const Description = styled(Title)`
     display: none;
-    width: 100%;
     margin-bottom: 2px;
     letter-spacing: 1px;
-    font-family: Open Sans, sans-serif;
-    color: rgb(169, 169, 169);
 
     @media ${device.mobileM} {
         display: block;
@@ -174,34 +181,16 @@ const Description = styled(Title)`
   }
 `;
 const IconBox = styled.div`
-    width: 6%;
-    margin: 2%;
-
-    @media ${device.mobileM} {
-        width: 6%;
-        margin: 3%;
-    }
-
-    @media ${device.mobileL} {
-        width: 5%;
-        margin: 3%;
-    }
-
-    @media (min-width: 512px) {
-        width: 4%;
-        margin: 3%;
-    }
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
 
     @media ${device.tablet} {
-        width: 16%;
-    }
-  
-    @media ${device.laptop} {
-        width: 10%;
-    }
+        margin-right: 10px;
 
-    @media ${device.laptopL} {
-        width: 10%;
+        & > svg {
+            color: #3aa0e9 !important;
+        }
     }
 `;
 
@@ -211,15 +200,13 @@ interface Props {
 
 const RenderMainNavigation: React.FC<Props> = ({ nav }) => {
     const { navigation: isOpenNav } = useSelector((state: RootState) => state.flags);
-    const dispatch = useDispatch();
 
-    const navigation = nav.map((item) => (
+    const navigation = nav.map((item, index) => (
         <LiStyled
             key={item.name}
-        //onClick={() => dispatch(toggleFlag('navigation'))}
         >
-            <LinkStyl to={item.path}>
-                <IconBox> {item.icon}</IconBox>
+            <LinkStyl to={item.path} delay={index * 0.1}>
+                <IconBox>{item.icon}</IconBox>
                 <Column>
                     <Paragraf>{item.name}</Paragraf>
                     <Description>{item.description}</Description>
@@ -230,9 +217,7 @@ const RenderMainNavigation: React.FC<Props> = ({ nav }) => {
 
     return (
         <Container isOpenNav={isOpenNav}>
-            <Nav>
-                <UlStyled>{navigation}</UlStyled>
-            </Nav>
+            <UlStyled>{navigation}</UlStyled>
         </Container>
     );
 };

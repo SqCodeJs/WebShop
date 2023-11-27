@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { toggleFlag } from "../../../state/actions/flagsActions";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { Wrapp } from "../../../utils/styledComponents";
 import { device } from "../../../utils/device";
-import Autocomplete from "../../Autocomplete";
+import Autocomplete from "./Autocomplete";
+import { RootState } from "../../../state/reducers/rootReducer";
+import { Item } from "../../../../../shared/types/commonTypes";
 
 const Container = styled.div`
   background-color: transparent;
@@ -46,7 +46,7 @@ const Wrapper = styled(Wrapp)`
     width: 100%;
   }
 `;
-const Input = styled.input`
+const Input = styled.input<{ borderBottom: string; }>`
   width: 100%;
   font-family: Roboto, sans-serif;
   border: none;
@@ -101,19 +101,22 @@ const SearchBox = styled.div`
     margin-right: 3%;
   }
 `;
-const SearchBar = ({ hamburger, db }) => {
-    const [suggestionList, setSugestionList] = useState([]);
+
+const SearchBar = () => {
+    const products = useSelector((state: RootState) => state.products);
+    const [suggestionList, setSuggestionList] = useState<Item[]>([]);
     const [input, setInput] = useState("");
 
-    const handleInputchange = (e) => setInput(e.target.value);
-    const setAutocompleteList = (e) => {
-        handleInputchange(e);
-
-        const finalElements = db.filter((elem) =>
-            elem.title.toLowerCase().includes(input)
+    const setAutocompleteList = (inputValue: string) => {
+        const finalElements = products.items.filter((elem: Item) =>
+            elem.title.toLowerCase().includes(inputValue.toLowerCase())
         );
-        setSugestionList(finalElements);
+
+        setSuggestionList(finalElements);
     };
+
+    useEffect(() => setAutocompleteList(input), [input]);
+
     return (
         <Wrapper>
             <Container>
@@ -124,7 +127,7 @@ const SearchBar = ({ hamburger, db }) => {
                         id=""
                         placeholder="search"
                         value={input}
-                        onChange={(e) => setAutocompleteList(e)}
+                        onChange={(e) => setInput(e.target.value)}
                         borderBottom={input}
                     />
 
@@ -139,13 +142,4 @@ const SearchBar = ({ hamburger, db }) => {
     );
 };
 
-SearchBar.propTypes = {
-    hamburger: PropTypes.bool,
-    hamburgerToggle: PropTypes.func,
-};
-const mapDispatchProps = { toggleFlag };
-const mapStateToProps = (state) => ({
-    products: state.products,
-    navigation: state.flags.navigation,
-});
-export default connect(mapStateToProps, mapDispatchProps)(SearchBar);
+export default SearchBar;

@@ -4,8 +4,10 @@ import renderMainNavigation from '../../common/Navigation/render/renderMainNavig
 import Slider from '../../Slider';
 import styled from "styled-components";
 import { device } from "../../../utils/device";
-import NavToggle from '../../common/Navigation/components/NavToggle';
-
+import { useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../state/reducers/rootReducer';
 const Wrapp = styled.div`
   width: 100%;
 
@@ -29,14 +31,16 @@ const Wrapp = styled.div`
 `;
 
 const Home = () => {
+    const { flags } = useSelector((state: RootState) => state);
+    const { navigation: isOpenNav } = flags;
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down(767));
     return (
-        <>
-            <NavToggle />
-            <Wrapp>
-                <Navigation render={renderMainNavigation} />
-                <Slider />
-            </Wrapp>
-        </>
+
+        <Wrapp>
+            {isOpenNav || !isMobile ? (<Navigation render={renderMainNavigation} />) : ''}
+            <Slider />
+        </Wrapp>
     );
 };
 
