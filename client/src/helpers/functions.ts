@@ -1,13 +1,6 @@
 import Axios from "axios";
+import { UserValiadationData } from '../types/types';
 
-interface UserValiadationData {
-
-    name: string,
-    lastName: string,
-    mail: string,
-    password: string,
-    confirmPassword: string,
-}
 
 function includedNumber(str: string): boolean {
     const arr = Array.from(str);

@@ -13,7 +13,7 @@ interface SetLogInfo {
 
 interface AddToBasket {
     type: ActionType.ADD_TO_BASKET;
-    item: Item;
+    item: Item & { quantity: number; };
 }
 
 interface GetAllProducts {

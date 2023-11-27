@@ -5,4 +5,12 @@ export interface NavigationList {
     description: string;
     icon: React.JSX.Element;
     exact?: boolean;
-  }
+}
+
+export interface UserValiadationData {
+    name: string,
+    lastName: string,
+    mail: string,
+    password: string,
+    confirmPassword: string,
+}

@@ -3,14 +3,13 @@ import { device } from "../utils/device";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Register from "./Register";
 import Columns from "./Columns";
 import Login from "./Login";
 import Header from "./common/header/Header";
 import SearchBar from "./common/header/SearchBar";
-import Main from "./Main";
 import Gallery from "./Gallery";
 import LastAdd from "./LastAdd";
 import Newsletter from "./Newsletter";
@@ -21,7 +20,6 @@ import ErrorPage from "./ErrorPage";
 import SingleProductPage from "./SingleProductPage";
 import MainCard from "./MainCard";
 
-import Hamburger from "./Hamburger";
 
 import UserPanel from "./UserPanel";
 const AppWrapper = styled.div`
@@ -66,23 +64,21 @@ const Home = () => {
                     <SearchBar /> */}
                 </HeaderWrapp>
                 <Wrapp>
-                    <Switch>
-                        <Route
-                            path="/"
-                            exact
-                            render={() => (
-                                <>
-                                    {/* <Hamburger />
-                                    <Main />
 
-                                    <Gallery />
-                                    <Columns />
-                                    <Newsletter />
-                                    <LastAdd /> */}
-                                </>
-                            )}
-                        />
-                        {/* <Route
+                    <Route
+                        path="/"
+                    //render={() => (
+                    // <>
+                    //<Hamburger />
+                    //<Main />
+                    //<Gallery />
+                    //<Columns />
+                    //<Newsletter />
+                    //<LastAdd /> *
+                    //</Switch></>
+                    // )}
+                    />
+                    {/* <Route
                             path="/userpanel"
                             render={() => (
                                 <UserPanel
@@ -100,23 +96,17 @@ const Home = () => {
                         <Route
                             path="/card"
                             render={() => <YourCard basket={basket} render={MainCard} />}
-                        /> */}
+                        /> 
 
-                        <Route path="/:path" exact children={() => <ProductsLibrary />} />
+                    {/* <Route path="/:.ath" exact children={() => <ProductsLibrary />} />
                         <Route path="/:path/:slug" children={<SingleProductPage />} />
-                        <Route component={ErrorPage} />
-                    </Switch>
+                        <Route component={ErrorPage} /> */}
+
                 </Wrapp>
                 <Footer />
             </AppWrapper>
         </Router>
     );
-};
-
-Home.propTypes = {
-    DB: PropTypes.array,
-    basket: PropTypes.array,
-    setBasket: PropTypes.func,
 };
 
 export default Home;

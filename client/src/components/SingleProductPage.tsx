@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import {
@@ -12,6 +11,8 @@ import { device } from "../utils/device";
 import { useParams } from "react-router-dom";
 import { addToBasket } from "../state/actions/basketActions";
 import ErrorPage from "./ErrorPage";
+import { RootState } from "../state/reducers/rootReducer";
+import { Item } from "../../../shared/types/commonTypes";
 
 const WrappPage = styled(Wrapp)`
   width: 100%;
@@ -101,17 +102,17 @@ const ItemTitle = styled(Title)`
   text-align: center;
 `;
 const SingleProductPage = () => {
-    const basket = useSelector((state) => state.basket);
-    const DB = useSelector((state) => state.db.products);
+    const basket = useSelector((state: RootState) => state.basket);
+    const products = useSelector((state: RootState) => state.products.items);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
     const [message, setMessage] = useState(" ");
     const { slug } = useParams();
     console.log("s", slug);
-    const product = DB.find((element) => element.title === slug);
+    const product = products.find((element) => element.title === slug);
 
-    const addBasket = (product) => {
-        if (basket.some((i) => i.id === product.id)) {
+    const addBasket = (product: Item) => {
+        if (basket.items.some((item: Item) => item.id === product.id)) {
             //info do redux
             setMessage(
                 "Produkt został juz dodany do koszyka. Aby zmienić ilość otwórz koszyk."
@@ -124,6 +125,7 @@ const SingleProductPage = () => {
     };
 
     if (product === undefined) return <ErrorPage />;
+
     return (
         <>
             <WrappPage>
@@ -151,10 +153,6 @@ const SingleProductPage = () => {
             </WrappPage>
         </>
     );
-};
-SingleProductPage.propTypes = {
-    DB: PropTypes.array,
-    setBasket: PropTypes.func,
 };
 
 export default SingleProductPage;

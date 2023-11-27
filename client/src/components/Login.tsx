@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 import { Wrapp, Container, Row, Title } from "../utils/styledComponents";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector, connect } from "react-redux";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../state/actions/accountActions";
-import { withRouter, useHistory } from "react-router-dom";
-import AuthWrapper from "../auth/AuthWrapper";
-import { REDIRECT_USER_PANEL } from "./../constants/redirect";
+import { RootState } from "../state/reducers/rootReducer";
 
 const WrappLogin = styled(Wrapp)`
   width: 100%;
@@ -87,14 +83,12 @@ const LoginParagraf = styled(Paragraf)`
 
   color: #2d9ae8;
 `;
-const Login = ({ history }) => {
-    const loginMessage = useSelector((state) => state.message.loginMessage);
-    const [data, setData] = useState({});
+const Login = () => {
+    const loginMessage = useSelector((state: RootState) => state.message.loginInfo);
+    const [data, setData] = useState<{ mail: string; password: string; }>({ mail: "", password: "" });
     const dispatch = useDispatch();
-    const a = useHistory();
 
-    //   console.log("useParams", a);
-    const setFormData = (e) =>
+    const setFormData = (e: ChangeEvent<HTMLInputElement>) =>
         setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
     return (
@@ -118,14 +112,10 @@ const Login = ({ history }) => {
 
                 <Button
                     onClick={() => {
-                        dispatch(loginAction(data)).then(
-                            (res) => {
-                                history.goBack();
-                            },
-                            (err) => { }
-                        );
+                        dispatch(loginAction(data));
+                        //todo handle after login
 
-                        setData({});
+                        setData({ mail: "", password: "" });
                     }}
                 >
                     Zaloguj się
@@ -142,10 +132,6 @@ const Login = ({ history }) => {
     );
 };
 
-Login.propTypes = {
-    data: PropTypes.object,
-    setData: PropTypes.func,
-    log: PropTypes.object,
-    setLog: PropTypes.func,
-};
-export default withRouter(AuthWrapper([REDIRECT_USER_PANEL])(Login));
+//todo add auth wrapper
+
+export default Login;
