@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import Strap from "./Strap";
+import Strap from "../components/common/Straps/BigStrap/BigStrap";
 import { device } from "../utils/device";
-const Basket = () => {
-  return (
-    <Wrapp>
-      <Strap />
-      {/* <Title>Koszyk</Title> */}
-      <Description>
-        Dodaj do koszyka przedmioty i kup je szybko i wygodnie. Przez koszyk
-        możesz kupić za jednym razem do 50 przedmiotów od różnych sprzedawców.
-      </Description>
-    </Wrapp>
-  );
-};
+
 const Wrapp = styled.div`
   width: 300px;
   height: 200px;
@@ -48,4 +37,18 @@ const Description = styled(Title)`
     font-size: 8px;
   }
 `;
+
+const Basket = () => {
+    return (
+        <Wrapp>
+            <Strap />
+            {/* <Title>Koszyk</Title> */}
+            <Description>
+                Dodaj do koszyka przedmioty i kup je szybko i wygodnie. Przez koszyk
+                możesz kupić za jednym razem do 50 przedmiotów od różnych sprzedawców.
+            </Description>
+        </Wrapp>
+    );
+};
+
 export default Basket;

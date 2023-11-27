@@ -19,7 +19,7 @@ const size: Size = {
     mobileL: "425px",
     tablet: "768px",
     laptop: "1024px",
-    laptopL: "1440px",
+    laptopL: "1240px",
     desktopS: "1600px",
     desktop: "2560px",
 };

@@ -5,6 +5,8 @@ import { trash } from "../utils/icon";
 import styled from "styled-components";
 import EmptyBasket from "./EmptyBasket";
 import { device } from "../utils/device";
+import { Item } from "../../../shared/types/commonTypes";
+
 const BasketWrapp = styled(Wrapp)`
   position: absolute;
   right: 0;
@@ -81,18 +83,22 @@ const IconBox = styled.div`
   padding: 1%;
 `;
 
-const BasketCard = ({ basket, setIsHover, removeItem }) => {
-    const cardItems = basket?.map((item) => (
+interface Props {
+    basket: Item[];
+    setIsHover: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const BasketCard: React.FC<Props> = ({ basket, setIsHover }) => {
+    //todo redux- manage basket cart adding. removing, add type for basket items (quanititny)
+    const cardItems = basket.map((item) => (
         <Good key={item.id}>
             <Img src={item.image} />
             <GoodTitle>{item.title}</GoodTitle>
-
             <DescriptionItem>cena jednostkowa: {item.price} zł</DescriptionItem>
-
-            <DescriptionItem>ilość {item.quantity}</DescriptionItem>
+            {/* <DescriptionItem>ilość {item.quantity}</DescriptionItem>
             <IconBox>
                 <Button onClick={() => removeItem(item.id)}>{trash}</Button>
-            </IconBox>
+            </IconBox> */}
         </Good>
     ));
     return (
@@ -104,9 +110,5 @@ const BasketCard = ({ basket, setIsHover, removeItem }) => {
         </BasketWrapp>
     );
 };
-BasketCard.propTypes = {
-    basket: PropTypes.array,
-    setIsHover: PropTypes.func,
-    removeItem: PropTypes.func,
-};
+
 export default BasketCard;

@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import { device } from "../utils/device";
+import { device } from "../../../utils/device";
 import { Link } from "react-router-dom";
+import { Item } from "../../../../../shared/types/commonTypes";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ show: string; }>`
   width: 100%;
 
   box-sizing: border-box;
@@ -81,32 +81,34 @@ const SampelBox = styled.div`
 const Img = styled.img`
   width: 100%;
 `;
-const Autocomplete = ({ input, setInput, suggestionList }) => {
-  return (
-    <Wrapper show={input}>
-      <ListUlStyled>
-        {suggestionList
-          ? suggestionList.map((e) => (
-              <LiStyled
-                key={e.id}
-                to={`/${e.cat}/${e.title}`}
-                onClick={() => setInput("")}
-              >
-                {e.title}
-                <SampelBox>
-                  <Img src={e.image} />
-                </SampelBox>
-              </LiStyled>
-            ))
-          : ""}
-      </ListUlStyled>
-    </Wrapper>
-  );
+
+interface Props {
+    input: string;
+    setInput: React.Dispatch<React.SetStateAction<string>>;
+    suggestionList: Item[];
+}
+
+const Autocomplete: React.FC<Props> = ({ input, setInput, suggestionList }) => {
+    return (
+        <Wrapper show={input}>
+            <ListUlStyled>
+                {suggestionList
+                    ? suggestionList.map((e) => (
+                        <LiStyled
+                            key={e.id}
+                            to={`/${e.category}/${e.title}`}
+                            onClick={() => setInput("")}
+                        >
+                            {e.title}
+                            <SampelBox>
+                                <Img src={e.image} />
+                            </SampelBox>
+                        </LiStyled>
+                    ))
+                    : ""}
+            </ListUlStyled>
+        </Wrapper>
+    );
 };
 
-Autocomplete.propTypes = {
-  data: PropTypes.array,
-  city: PropTypes.string,
-  showCity: PropTypes.func,
-};
 export default Autocomplete;

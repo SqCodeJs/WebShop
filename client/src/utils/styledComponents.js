@@ -71,10 +71,15 @@ const Logo = styled(Link)`
   cursor: pointer;
 `;
 const LogoHeader = styled(Link)`
-  text-decoration: none;
-  color: #2d9ae8;
-  text-transform: uppercase;
-  cursor: pointer;
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
   @media ${device.mobileS} {
     font-size: 22px;
     line-height: 38px;
@@ -88,6 +93,10 @@ const LogoHeader = styled(Link)`
     line-height: 42px;
   }
   @media ${device.tablet} {
+    position: static;
+    transform: translate(0);
+    margin-left: 40px;
+    color: #2d9ae8;
     font-size: 48px;
     line-height: 58px;
   }
@@ -96,6 +105,7 @@ const LogoHeader = styled(Link)`
     line-height: 64px;
   }
   @media ${device.laptopL} {
+    margin: 0;
     font-size: 56px;
     line-height: 66px;
   }
@@ -165,18 +175,18 @@ const Img = styled.img`
 const Radio = styled.input``;
 
 export {
-  Wrapp,
-  ColumnWrapp,
-  Container,
-  Row,
-  Title,
-  Logo,
-  LogoHeader,
-  Radio,
-  Description,
-  Link,
-  Sampel,
-  Position,
-  GalleryTitle,
-  Img,
+    Wrapp,
+    ColumnWrapp,
+    Container,
+    Row,
+    Title,
+    Logo,
+    LogoHeader,
+    Radio,
+    Description,
+    Link,
+    Sampel,
+    Position,
+    GalleryTitle,
+    Img,
 };
