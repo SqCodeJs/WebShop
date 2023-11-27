@@ -4,7 +4,7 @@ import { Item } from "../../../shared/types/commonTypes";
 interface Props {
     basket: Item[];
     setBasket: (basket: Item[]) => void;
-    render: ({ removeItem, props }: { removeItem: (id: number) => void; props: any; }) => JSX.Element;
+    render: ({ removeItem, props }: { removeItem: (id: number) => void; props?: any; }) => JSX.Element;
 }
 
 const YourCard: React.FC<Props> = ({ basket, setBasket, render, ...props }) => {

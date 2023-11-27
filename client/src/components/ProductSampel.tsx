@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Position } from "../utils/styledComponents";
 import { device } from "../utils/device";
 import { toggleFlag } from "../state/actions/flagsActions";
 import { useDispatch } from "react-redux";
+import { Item } from "../../../shared/types/commonTypes";
 const SampelImg = styled.img`
   width: 60%;
 `;
@@ -80,7 +80,10 @@ const ProductTitle = styled.p`
   }
 `;
 
-const ProductSampel = ({ product }) => {
+interface Props {
+    product: Item;
+}
+const ProductSampel: React.FC<Props> = ({ product }) => {
     const dispatch = useDispatch();
     return (
         <Sampel>
@@ -88,7 +91,7 @@ const ProductSampel = ({ product }) => {
                 <SampelImg src={product.image} alt={product.title} />
                 <ProductTitle>{product.title}</ProductTitle>
                 <ProductLink
-                    to={`/${product.cat}/${product.title}`}
+                    to={`/${product.category}/${product.title}`}
                     onClick={() => dispatch(toggleFlag('navigation'))}
                 >
                     <Position>Kup Teraz</Position>
@@ -98,7 +101,4 @@ const ProductSampel = ({ product }) => {
     );
 };
 
-ProductSampel.propTypes = {
-    product: PropTypes.object,
-};
 export default ProductSampel;
