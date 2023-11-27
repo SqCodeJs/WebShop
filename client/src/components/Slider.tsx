@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { device } from "../utils/device";
 import { Wrapp, Title, Description } from "../utils/styledComponents";
 import { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
-const ItemDescription = styled(Description)`
+
+const ItemDescription = styled(Description) <{ spot: number; }>`
   width: 20%;
   position: absolute;
   right: ${(props) =>
@@ -99,7 +99,7 @@ const Container = styled.div`
     margin: 2% 0 2% 2%;
   }
 `;
-const SlideWrapp = styled(Wrapp)`
+const SlideWrapp = styled(Wrapp) <{ background: string; }>`
   width: 100%;
 
   position: relative;
@@ -150,7 +150,7 @@ const move2 = keyframes`
   }
 `;
 
-const SlideTitle = styled(Title)`
+const SlideTitle = styled(Title) <{ anime: number; }>`
   font-size: 8px;
   width: 30%;
   text-align: center;
@@ -201,7 +201,7 @@ const Board = styled.div`
   height: 90%;
   background-color: transparent;
 `;
-const Button = styled.button`
+const Button = styled.button<{ sliderNum: number; slide: number; }>`
   margin: 1%;
   width: 30px;
   height: 30px;
@@ -246,10 +246,11 @@ const Slider = () => {
     // eslint-disable-next-line no-unused-vars
     const [wSlider, setWSlider] = useState(webSlider);
     const [slide, setSlide] = useState(0);
-    const [indexInterval, setIndeInterval] = useState(0);
-    const changeSlide = (slideNumber) => {
+    const [indexInterval, setIndeInterval] = useState<NodeJS.Timeout>();
+    const changeSlide = (slideNumber: number) => {
         setSlide(slideNumber);
     };
+
     const slideSwitchInterval = () => {
         if (slide > wSlider.length) {
             return setSlide(0);
@@ -264,6 +265,7 @@ const Slider = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     const slider = wSlider
         .map((item) => (
             <SlideWrapp background={item.img} key={item.id}>
@@ -320,12 +322,4 @@ const Slider = () => {
     return <Container>{slider}</Container>;
 };
 
-Slider.propTypes = {
-    wSlider: PropTypes.array,
-    slide: PropTypes.number,
-    changeSlide: PropTypes.func,
-    indexInterval: PropTypes.number,
-    setIndeInterval: PropTypes.func,
-    slideSwitchInterval: PropTypes.func,
-};
 export default Slider;

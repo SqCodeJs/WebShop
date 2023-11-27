@@ -9,7 +9,6 @@ import {
     watch,
     camera,
 } from "../../../../utils/icon";
-import { Item } from "../../../../../../shared/types/commonTypes";
 
 interface NavigationList {
     name: string;
@@ -21,7 +20,7 @@ interface NavigationList {
 }
 
 interface Props {
-    render: (props: { nav: NavigationList[], DB: Item[]; }) => React.ReactNode;
+    render: (props: { nav: NavigationList[]; }) => React.ReactNode;
 }
 
 const Navigation: React.FC<Props> = (props) => {
