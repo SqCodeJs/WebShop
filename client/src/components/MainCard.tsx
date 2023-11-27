@@ -7,6 +7,7 @@ import { Wrapp, Title, Description } from "../utils/styledComponents";
 import styled from "styled-components";
 import EmptyBasket from "./EmptyBasket";
 import { device } from "../utils/device";
+import { Item } from "../../../shared/types/commonTypes";
 const WrappCard = styled(Wrapp)`
   width: 100%;
 
@@ -190,85 +191,88 @@ const SecondPart = styled(FirstPart)`
 
   align-items: center;
 `;
-const MainCard = ({ basket, removeItem }) => {
-  const [state, setState] = useState(
-    basket.map((e) => ({ ...e, worth: e.price * e.quantity }))
-  );
 
-  console.log("Basket", state);
-  const setQuantity = (id) => (event) => {
-    const newState = [...state].map((e) => {
-      if (e.id === id) {
-        e.quantity = +event.target.value;
-        e.worth = e.price * e.quantity;
-      }
-      return e;
-    });
+interface Props {
+    basket: (Item & { quantity: number; })[];
+    removeItem: (id: number) => void;
 
-    setState(newState);
-  };
-  const totalWorth = () => {
-    let total = 0;
-    state.forEach((element) => {
-      total += element.worth;
-    });
-    return total;
-  };
+}
 
-  const cardItems = state.map((item) => (
-    <Con key={item.id}>
-      <FirstPart>
-        <ImgStyled>
-          <SmallImg src={item.image}></SmallImg>
-        </ImgStyled>
-        <ItemTitle>{item.title}</ItemTitle>
-        <PriceStyled> {item.price} zł</PriceStyled>
-      </FirstPart>
-      <SecondPart>
-        <QuantityInput
-          type="number"
-          value={item.quantity}
-          onChange={setQuantity(item.id)}
-          min="0"
-          max="100"
-        ></QuantityInput>
-        <DescriptionItem>Wartość: {item.worth}zł</DescriptionItem>
-      </SecondPart>
-      <IconBox>
-        <ButtonStyled onClick={() => removeItem(item.id)}>{trash}</ButtonStyled>
-      </IconBox>
-    </Con>
-  ));
-  return basket.length > 0 ? (
-    <WrappCard>
-      <Total>
-        <ProductPrice>
-          <ProductTitle>Product</ProductTitle>
-          <PriceTitle>Cena</PriceTitle>
-        </ProductPrice>
-        <QuantityWorth>
-          <QuantityTitle>Ilość</QuantityTitle>
-          <WorthTitle>Wartość</WorthTitle>
-        </QuantityWorth>
-      </Total>
-      {cardItems}
-      <p
-        style={{
-          fontSize: "20px",
-          width: "80%",
-          margin: "0 auto",
-          textAlign: "end",
-        }}
-      >
-        suma: {totalWorth()}
-      </p>
-    </WrappCard>
-  ) : (
-    <EmptyBasket />
-  );
+const MainCard: React.FC<Props> = ({ basket, removeItem }) => {
+    const [state, setState] = useState(
+        basket.map((e) => ({ ...e, worth: e.price * e.quantity }))
+    );
+
+    const setQuantity = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newState = [...state].map((e) => {
+            if (e.id === id) {
+                e.quantity = +event.target.value;
+                e.worth = e.price * e.quantity;
+            }
+            return e;
+        });
+
+        setState(newState);
+    };
+    const totalWorth = () => {
+        let total = 0;
+        state.forEach((element) => {
+            total += element.worth;
+        });
+        return total;
+    };
+
+    const cardItems = state.map((item) => (
+        <Con key={item.id}>
+            <FirstPart>
+                <ImgStyled>
+                    <SmallImg src={item.image}></SmallImg>
+                </ImgStyled>
+                <ItemTitle>{item.title}</ItemTitle>
+                <PriceStyled> {item.price} zł</PriceStyled>
+            </FirstPart>
+            <SecondPart>
+                <QuantityInput
+                    type="number"
+                    value={item.quantity}
+                    onChange={setQuantity(item.id)}
+                    min="0"
+                    max="100"
+                ></QuantityInput>
+                <DescriptionItem>Wartość: {item.worth}zł</DescriptionItem>
+            </SecondPart>
+            <IconBox>
+                <ButtonStyled onClick={() => removeItem(item.id)}>{trash}</ButtonStyled>
+            </IconBox>
+        </Con>
+    ));
+    return basket.length > 0 ? (
+        <WrappCard>
+            <Total>
+                <ProductPrice>
+                    <ProductTitle>Product</ProductTitle>
+                    <PriceTitle>Cena</PriceTitle>
+                </ProductPrice>
+                <QuantityWorth>
+                    <QuantityTitle>Ilość</QuantityTitle>
+                    <WorthTitle>Wartość</WorthTitle>
+                </QuantityWorth>
+            </Total>
+            {cardItems}
+            <p
+                style={{
+                    fontSize: "20px",
+                    width: "80%",
+                    margin: "0 auto",
+                    textAlign: "end",
+                }}
+            >
+                suma: {totalWorth()}
+            </p>
+        </WrappCard>
+    ) : (
+        <EmptyBasket />
+    );
 };
-MainCard.propTypes = {
-  basket: PropTypes.array,
-  removeItem: PropTypes.func,
-};
+
 export default MainCard;

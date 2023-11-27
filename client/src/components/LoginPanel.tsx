@@ -79,27 +79,28 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const LoginPanel = ({ loginFlagToggle }) => {
-  return (
-    <Wrapp>
-      <Strap></Strap>
-      <Container>
-        <Paragraf>Zaloguj się, aby zobaczyć swoje powiadomienia.</Paragraf>
-        <Button onClick={loginFlagToggle}>
-          <LinkStyled to="/login">ZALOGUJ SIĘ</LinkStyled>
-        </Button>
-        <Paragraf>Nie masz jeszcze konta?</Paragraf>
+interface Props {
+    loginFlagToggle: () => void;
+}
 
-        <Button onClick={loginFlagToggle}>
-          <LinkStyled to="/register">ZAREJESTRUJ SIĘ</LinkStyled>
-        </Button>
-      </Container>
-      <Strap></Strap>
-    </Wrapp>
-  );
+const LoginPanel: React.FC<Props> = ({ loginFlagToggle }) => {
+    return (
+        <Wrapp>
+            <Strap></Strap>
+            <Container>
+                <Paragraf>Zaloguj się, aby zobaczyć swoje powiadomienia.</Paragraf>
+                <Button onClick={loginFlagToggle}>
+                    <LinkStyled to="/login">ZALOGUJ SIĘ</LinkStyled>
+                </Button>
+                <Paragraf>Nie masz jeszcze konta?</Paragraf>
+
+                <Button onClick={loginFlagToggle}>
+                    <LinkStyled to="/register">ZAREJESTRUJ SIĘ</LinkStyled>
+                </Button>
+            </Container>
+            <Strap></Strap>
+        </Wrapp>
+    );
 };
 
-LoginPanel.propTypes = {
-  loginFlagToggle: PropTypes.func,
-};
 export default LoginPanel;

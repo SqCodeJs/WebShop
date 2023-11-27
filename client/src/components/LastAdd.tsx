@@ -5,6 +5,7 @@ import { device } from "../utils/device";
 import { Wrapp, GalleryTitle } from "../utils/styledComponents";
 import { getRanomIndex, selectByRandomIndex } from "../helpers/functions";
 import ProductSampel from "./ProductSampel";
+import { RootState } from "../state/reducers/rootReducer";
 const Container = styled(Wrapp)`
   margin: 30px auto;
   flex-direction: column;
@@ -65,10 +66,10 @@ const Sample = styled.div`
 `;
 
 const LastAdd = () => {
-    const products = useSelector((state) => state.products);
+    const products = useSelector((state: RootState) => state.products);
 
-    const randomIndexes = getRanomIndex(products.length, 12);
-    const randomProducts = selectByRandomIndex(products, randomIndexes);
+    const randomIndexes = getRanomIndex(products.items.length, 12);
+    const randomProducts = selectByRandomIndex(products.items, randomIndexes);
 
     const renderList = () =>
         randomProducts.map((product) => (

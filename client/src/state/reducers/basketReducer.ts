@@ -4,7 +4,7 @@ import { Item } from "../../../../shared/types/commonTypes";
 import { Reducer } from 'redux';
 
 interface State {
-    items: Item[];
+    items: (Item & { quantity: number; })[];
 }
 
 const initialState: State = {
@@ -14,7 +14,7 @@ const initialState: State = {
 export const basketReducer: Reducer<State, BasketAction> = (state = initialState, action: BasketAction) => {
     switch (action.type) {
         case ActionType.ADD_TO_BASKET:
-            return {...state.items, items: [...state.items, action.item]};
+            return { ...state.items, items: [...state.items, action.item] };
         default:
             return state;
     }

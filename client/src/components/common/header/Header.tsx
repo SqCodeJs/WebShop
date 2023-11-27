@@ -140,13 +140,13 @@ const Header = () => {
                             loginFlagToggle={loginFlagToggle}
                         />
                     )} */}
-                        {isHover && (
+                        {/* {isHover && (
                             <YourCard
                                 basket={basket.items}
                                 setIsHover={setIsHover}
                                 render={BasketCard}
                             />
-                        )}
+                        )} */}
                     </Icons>
                 </Container>
             </Wrapper>
