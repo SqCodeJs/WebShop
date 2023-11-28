@@ -2,7 +2,6 @@ export interface User {
     accessToken: string;
     name: string;
     mail: string;
-
 }
 
 export interface Account {
@@ -11,10 +10,12 @@ export interface Account {
 }
 
 export interface Item {
-    id: string;
+    id: number;
     title: string;
     price: number;
     description: string;
     category: string;
     image: string;
+    color: string;
+    tag: string;
 }
