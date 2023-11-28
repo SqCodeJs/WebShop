@@ -69,7 +69,7 @@ import flash from 'express-flash';
 import passport from 'passport';
 import registerRoutes from './routes/registerRoutes';
 import loginRoutes from './routes/loginRoutes';
-// import productsRoutes from './routes/productsRoutes';
+import productsRoutes from './routes/productsRoutes';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -108,7 +108,7 @@ app.use(passport.initialize());
 // Wczytaj konfigurację paszportu
 // require('./config/passport')(passport);
 
-// // // app.use('/', productsRoutes);
+app.use('/', productsRoutes);
 app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
 
