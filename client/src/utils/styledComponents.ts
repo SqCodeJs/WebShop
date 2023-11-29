@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { device } from "./device";
 
+const PageWrapper = styled.div`
+    margin: 0 auto;
+    max-width: 1280px;
+`;
+
 const Wrapp = styled.div`
   display: flex;
   justify-content: center;
@@ -175,6 +180,7 @@ const Img = styled.img`
 const Radio = styled.input``;
 
 export {
+    PageWrapper,
     Wrapp,
     ColumnWrapp,
     Container,

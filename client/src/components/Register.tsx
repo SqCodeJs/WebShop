@@ -7,9 +7,10 @@ import {
 } from "../helpers/functions";
 import styled from "styled-components";
 import { Wrapp, Container, Row, Radio } from "../utils/styledComponents";
-import { checked } from "../utils/icon";
 import { device } from "../utils/device";
 import { UserValiadationData } from "../types/types";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./atoms/Icon";
 
 const ContainerRegister = styled(Container)`
   padding: 10px 20px;
@@ -184,7 +185,9 @@ const Register = () => {
                         value={data.name || ""}
                         onChange={setFormData}
                     />
-                    <Marked checked={data?.name || ""}>{checked}</Marked>
+                    <Marked checked={data?.name || ""}>
+                        <Icon icon={faCheckCircle} />
+                    </Marked>
                 </RowRegister>
                 <RowRegister>
                     <Input
@@ -194,7 +197,9 @@ const Register = () => {
                         value={data.lastName || ""}
                         onChange={setFormData}
                     />
-                    <Marked checked={data?.lastName || ""}>{checked}</Marked>
+                    <Marked checked={data?.lastName || ""}>
+                        <Icon icon={faCheckCircle} />
+                    </Marked>
                 </RowRegister>
                 <RowRegister>
                     <Input
@@ -204,7 +209,9 @@ const Register = () => {
                         name="mail"
                         onChange={setFormData}
                     />
-                    <Marked checked={String(isMailCorrect(data.mail)) || ""}>{checked}</Marked>
+                    <Marked checked={String(isMailCorrect(data.mail)) || ""}>
+                        <Icon icon={faCheckCircle} />
+                    </Marked>
                 </RowRegister>
                 <RowRegister>
                     <Input
@@ -214,7 +221,9 @@ const Register = () => {
                         name="password"
                         onChange={setFormData}
                     />
-                    <PassChecked checked={data?.password || ""}>{checked}</PassChecked>
+                    <PassChecked checked={data?.password || ""}>
+                        <Icon icon={faCheckCircle} />
+                    </PassChecked>
                 </RowRegister>
                 <RowRegister>
                     <Input
@@ -228,7 +237,7 @@ const Register = () => {
                         pass={data.password || ""}
                         confirmPass={data.confirmPassword || ""}
                     >
-                        {checked}
+                        <Icon icon={faCheckCircle} />
                     </MatchedPass>
                 </RowRegister>
                 <Paragraf>2. Twój wiek</Paragraf>

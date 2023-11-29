@@ -1,11 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Wrapp, Title, Description } from "../utils/styledComponents";
-import { trash } from "../utils/icon";
 import styled from "styled-components";
 import EmptyBasket from "./EmptyBasket";
 import { device } from "../utils/device";
 import { Item } from "../../../shared/types/commonTypes";
+import Icon from "./atoms/Icon";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const BasketWrapp = styled(Wrapp)`
   position: absolute;
@@ -97,7 +97,7 @@ const BasketCard: React.FC<Props> = ({ basket, setIsHover }) => {
             <DescriptionItem>cena jednostkowa: {item.price} zł</DescriptionItem>
             {/* <DescriptionItem>ilość {item.quantity}</DescriptionItem>
             <IconBox>
-                <Button onClick={() => removeItem(item.id)}>{trash}</Button>
+                <Button onClick={() => removeItem(item.id)}><Icon icon={faTrashAlt} /></Button>
             </IconBox> */}
         </Good>
     ));

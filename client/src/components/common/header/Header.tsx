@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { device } from "../../../utils/device";
 import LoginPanel from "../../LoginPanel";
 import BasketCard from "../../BasketCard";
-import { singUp, shoppBag, user } from "../../../utils/icon";
-import { LogoHeader } from "../../../utils/styledComponents";
+import { LogoHeader, PageWrapper } from "../../../utils/styledComponents";
 import YourCard from "../../YourCard";
 import { RootState } from "../../../state/reducers/rootReducer";
 import { useSelector } from "react-redux";
@@ -13,11 +12,8 @@ import NavToggle from "../Navigation/components/NavToggle";
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SearchBar from './SearchBar';
-
-const Wrapper = styled.div`
-    margin: 0 auto;
-    max-width: 1280px;
-`;
+import Icon from '../../atoms/Icon';
+import { faShoppingBag, faSignInAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
     display: flex;
@@ -78,16 +74,20 @@ const Button = styled.button`
     color: white;
     border: none;
     background-color: transparent;
-    
+
+      &:hover {
+        cursor: pointer;
+        color: #2d9ae8;
+    }
+
     @media ${device.tablet} {
         width: 28px;
         height: 28px;
         color: #2d9ae8;
-    }
 
-    &:hover {
-        cursor: pointer;
-        color: #2d9ae8;
+        &:hover {
+            color: #1684d3;
+        }
     }
 `;
 
@@ -105,8 +105,7 @@ const Header = () => {
 
     return (
         <>
-            <Wrapper>
-
+            <PageWrapper>
                 <Container>
                     {isMobile && <NavToggle isOpenNav={isOpenNav} />}
                     <LogoHeader to="/">sklep</LogoHeader>
@@ -115,14 +114,16 @@ const Header = () => {
                             setLoginFlag(false);
                         }}
                     >
-                        <Buttons to="/userpanel">{user}</Buttons>
+                        <Buttons to="/userpanel">
+                            <Icon icon={faUser} />
+                        </Buttons>
                         <Button
                             onClick={() => {
                                 loginFlagToggle();
                                 setIsHover(false);
                             }}
                         >
-                            {singUp}
+                            <Icon icon={faSignInAlt} />
                         </Button>
                         <Buttons
                             to="/card"
@@ -132,7 +133,7 @@ const Header = () => {
                             }}
                             onMouseLeave={() => setIsHover(false)}
                         >
-                            {shoppBag}
+                            <Icon icon={faShoppingBag} />
                         </Buttons>
                         {/* {loginFlag && (
                         <LoginPanel
@@ -149,7 +150,7 @@ const Header = () => {
                         )} */}
                     </Icons>
                 </Container>
-            </Wrapper>
+            </PageWrapper>
 
             <SearchBar />
         </>
