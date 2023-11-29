@@ -5,8 +5,9 @@ import { ColumnWrapp, Wrapp, Title } from "../../../utils/styledComponents";
 import Strap from "../Straps/Strap";
 import Navigation from "../Navigation/components/Navigation";
 import renderFooterNavigation from "../Navigation/render/renderFooterNavigation";
-import { call, mail, watch } from "../../../utils/icon";
 import { device } from "../../../utils/device";
+import { faClock, faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import Icon from "../../atoms/Icon";
 
 const WrappFooter = styled(Wrapp)`
   width: 100%;
@@ -106,7 +107,7 @@ const Columns = styled(ColumnWrapp)`
   width: 30%;
 `;
 
-const Footer: React.FC = () => { 
+const Footer: React.FC = () => {
     return (
         <WrappFooter>
             <Strap />
@@ -120,15 +121,21 @@ const Footer: React.FC = () => {
 
                     <Columns>
                         <Row>
-                            <IconBox> {call} </IconBox>
+                            <IconBox>
+                                <Icon icon={faPhone} />
+                            </IconBox>
                             <ContactTitile>888121121</ContactTitile>
                         </Row>
                         <Row>
-                            <IconBox> {mail}</IconBox>
+                            <IconBox>
+                                <Icon icon={faEnvelope} />
+                            </IconBox>
                             <ContactTitile>sklep.support@gmail.com</ContactTitile>
                         </Row>
                         <Row>
-                            <IconBox> {watch}</IconBox>
+                            <IconBox>
+                                <Icon icon={faClock} />
+                            </IconBox>
                             <ContactTitile>8:30-18:30</ContactTitile>
                         </Row>
                     </Columns>

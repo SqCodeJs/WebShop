@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-
-import { trash } from "../utils/icon";
-
+import Icon from "./atoms/Icon";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Wrapp, Title, Description } from "../utils/styledComponents";
 import styled from "styled-components";
 import EmptyBasket from "./EmptyBasket";
@@ -242,7 +240,9 @@ const MainCard: React.FC<Props> = ({ basket, removeItem }) => {
                 <DescriptionItem>Wartość: {item.worth}zł</DescriptionItem>
             </SecondPart>
             <IconBox>
-                <ButtonStyled onClick={() => removeItem(item.id)}>{trash}</ButtonStyled>
+                <ButtonStyled onClick={() => removeItem(item.id)}>
+                    <Icon icon={faTrashAlt} />
+                </ButtonStyled>
             </IconBox>
         </Con>
     ));

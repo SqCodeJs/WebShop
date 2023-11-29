@@ -4,6 +4,7 @@ import { device } from "../../../../utils/device";
 import { useSelector } from "react-redux";
 import { NavigationList } from '../../../../types/types';
 import { RootState } from "../../../../state/reducers/rootReducer";
+import Icon from "../../../atoms/Icon";
 
 const appear = keyframes`
     0% {
@@ -206,7 +207,8 @@ const RenderMainNavigation: React.FC<Props> = ({ nav }) => {
             key={item.name}
         >
             <LinkStyl to={item.path} delay={index * 0.1}>
-                <IconBox>{item.icon}</IconBox>
+                <IconBox>
+                    <Icon icon={item.icon} /></IconBox>
                 <Column>
                     <Paragraf>{item.name}</Paragraf>
                     <Description>{item.description}</Description>

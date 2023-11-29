@@ -1,21 +1,15 @@
 import "typeface-roboto";
 import React from "react";
 import {
-    laptop,
-    electronics,
-    phone,
-    game,
-    audio,
-    watch,
-    camera,
-} from "../../../../utils/icon";
+    faLaptop, faBlender, faHeadphones, faMobileAlt, faGamepad, faClock, faCamera, IconDefinition
 
+} from "@fortawesome/free-solid-svg-icons";
 interface NavigationList {
     name: string;
     path: string;
     category: string;
     description: string;
-    icon: React.JSX.Element;
+    icon: IconDefinition;
     exact?: boolean;
 }
 
@@ -30,7 +24,7 @@ const Navigation: React.FC<Props> = (props) => {
             path: "/laptops",
             category: "laptops",
             description: "Dell, HP, Macbook, Samsung...",
-            icon: laptop,
+            icon: faLaptop,
             exact: true,
         },
         {
@@ -38,42 +32,42 @@ const Navigation: React.FC<Props> = (props) => {
             path: "/electronic",
             category: "electronic",
             description: "Telewizory, Agd, Odkurzacze...",
-            icon: electronics,
+            icon: faBlender,
         },
         {
             name: "Audio",
             path: "/audio",
             category: "audio",
             description: "Sluchawki, Odtwarzacze, Glosniki...",
-            icon: audio,
+            icon: faHeadphones,
         },
         {
             name: "Telefony",
             path: "/phones",
             category: "phones",
             description: "Telefony, Ladowarki, Gadżety...",
-            icon: phone,
+            icon: faMobileAlt,
         },
         {
             name: "Konsole i Gry",
             path: "/console",
             category: "console",
             description: "Playstation, Xbox...",
-            icon: game,
+            icon: faGamepad,
         },
         {
             name: "Zegarki",
             path: "/watches",
             category: "watches",
             description: "Koperty, Paski...",
-            icon: watch,
+            icon: faClock,
         },
         {
             name: "Aparaty",
             path: "/cameras",
             category: "cameras",
             description: "Kamery, Obiektywy, Akcesoria...",
-            icon: camera,
+            icon: faCamera,
         },
     ];
 
