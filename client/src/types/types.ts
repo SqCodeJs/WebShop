@@ -1,5 +1,7 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
+export type Mode = 'light' | 'dark';
+
 export interface NavigationList {
     name: string;
     path: string;

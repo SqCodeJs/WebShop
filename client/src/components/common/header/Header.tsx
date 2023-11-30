@@ -101,11 +101,13 @@ const Header = () => {
     };
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down(767));
+
+    console.log('theme',theme)
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
         <>
-            <PageWrapper>
+            <PageWrapper style={{backgroundColor: theme.palette.background.paper}}>
                 <Container>
                     {isMobile && <NavToggle isOpenNav={isOpenNav} />}
                     <LogoHeader to="/">sklep</LogoHeader>
