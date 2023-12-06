@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Wrapp } from "../utils/styledComponents";
-import ProductSampel from "./ProductSampel";
-import { Item } from "../../../shared/types/commonTypes";
+import { Wrapp } from "../../../utils/styledComponents";
+import ProductSampel from "../../ProductSampel";
+import { Item } from "../../../../../shared/types/commonTypes";
 
 const WrappBoard = styled(Wrapp)`
     width: 75%;
