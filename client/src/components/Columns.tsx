@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { getRanomIndex, selectByRandomIndex } from "../helpers/functions";
+import React, { useMemo, useEffect, useState } from "react";
+import { getRandomIndex, selectByRandomIndex } from "../helpers/functions";
 import { useSelector } from "react-redux";
 import { device } from "../utils/device";
 import styled from "styled-components";
 import ProductSampel from "./ProductSampel";
-import { Wrapp, GalleryTitle, Img, Position } from "../utils/styledComponents";
+import { Wrapp, GalleryTitle, Img, Position, PageWrapper } from "../utils/styledComponents";
 import { RootState } from "../state/reducers/rootReducer";
 import { Item } from "../../../shared/types/commonTypes";
+import useTheme from "@mui/material/styles/useTheme";
+import { Theme } from "@mui/material";
 
 const Sampel = styled.div`
     width: 75%;
@@ -30,36 +32,22 @@ const Sampel = styled.div`
     }
 `;
 
-const Container = styled.div`
+const Container = styled(PageWrapper)`
+border: 1px solid red;
     width: 100%;
-    display: flex;
-    margin: 30px auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex-wrap: wrap;
-
-    @media ${device.default} {
-        padding: 10px;
-    }
 
     @media ${device.tablet} {
         flex-direction: row;
     }
-
-    @media ${device.laptop} {
-        padding: 0;
-    }
-
-    @media ${device.laptopL} {
-        width: 96%;
-    }
 `;
 
-const Aside = styled.aside`
+const Aside = styled.aside<{ theme: Theme; }>`
     width: 100%;
     padding-top: 2%;
-    display: flex;
+    //display: flex;
     flex-direction: column;
     align-items: center;
     border: 2px solid #2d9ae8;
@@ -67,30 +55,29 @@ const Aside = styled.aside`
     border-radius: 30px;
     box-shadow: 0 0 1em rgb(220, 220, 220);
 
-    @media ${device.tablet} {
+    @media ${device.tablet}  {
         width: 30%;
     }
+    
+
 `;
 
-const TopProducts = styled.div`
+const TopProducts = styled.div<{theme: Theme}>`
     width: 100%;
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
     background-color: #f3f3f3;
     border-radius: 30px;
-
     @media ${device.tablet} {
-        width: 69%;
-        margin-right: 1%;
-        padding: 1%;
+        width: 65%;
     }
+
 `;
 
 const Wrapper = styled(Wrapp)`
-      width: 100%;
+    width: 100%;
     justify-content: center;
     flex: 1;
     flex-wrap: wrap;
@@ -104,17 +91,15 @@ const Product = styled.div`
     transition: 0.2s;
 
     @media ${device.mobileS} {
-        width: 95%;
-        margin: 5%;
+        width: 100%;
     }
 
     @media ${device.tablet} {
-        width: 48%;
-        margin: 1%;
+        width: 50%;
     }
 
     @media ${device.laptop} {
-        width: 31%;
+        width: 30%;
         margin: 1%;
     }
   
@@ -131,49 +116,36 @@ const Product = styled.div`
 
 const Columns = () => {
     const products = useSelector((state: RootState) => state.products);
+    const theme = useTheme();
+    const randomIndexesForAside = getRandomIndex(products.items.length, 4);
+    const randomIndexesForTop = getRandomIndex(products.items.length, 12);
+    console.log(randomIndexesForAside, randomIndexesForTop)
+    const randomAside = useMemo(() => selectByRandomIndex(products.items, randomIndexesForAside), [products.items, randomIndexesForAside]);
+    const randomTop = useMemo(() => selectByRandomIndex(products.items, randomIndexesForTop), [products.items, randomIndexesForTop]);
 
-    const randomIndexesForAside = getRanomIndex(products.items.length, 4);
-    const randomAside = selectByRandomIndex(products.items, randomIndexesForAside);
-    const randomIndexesForTop = getRanomIndex(products.items.length, 12);
-    const randomTop = selectByRandomIndex(products, randomIndexesForTop);
-    const [aside, setAside] = useState<Item[]>([]);
-    const [top, setTop] = useState<Item[]>([]);
-    useEffect(() => {
-        setAside(randomAside);
-        setTop(randomTop);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const renderAside = () => {
-        return aside.map((product) => (
-            <Sampel key={product.id}>
-                <ProductSampel product={product} />
-            </Sampel>
-        ));
-    };
-
-    const renderTop = () => {
-        return top.map((product) => (
-            <Product key={product.id}>
-                <ProductSampel product={product} />
-            </Product>
-        ));
-    };
-
+    console.log('render',);
     return (
-        <>
-            <Container>
-                <TopProducts>
-                    <GalleryTitle>Najcześciej Kupowanie</GalleryTitle>
-                    <Wrapper>{renderTop()}</Wrapper>
-                </TopProducts>
+        <Container>
+            <TopProducts theme={theme}>
+                <GalleryTitle>Najcześciej Kupowanie</GalleryTitle>
+                <Wrapper>{randomTop.map((product) => (
+                    <Product key={product.id}>
+                        <ProductSampel product={product} />
+                    </Product>
+                ))
+                }</Wrapper>
+            </TopProducts>
 
-                <Aside>
-                    <GalleryTitle>Oferty Dnia</GalleryTitle>
-                    {renderAside()}
-                </Aside>
-            </Container>
-        </>
+            <Aside theme={theme}>
+                <GalleryTitle>Oferty Dnia</GalleryTitle>
+                {randomAside.map((product) => (
+                    <Sampel key={product.id}>
+                        <ProductSampel product={product} />
+                    </Sampel>
+                ))
+                }
+            </Aside>
+        </Container>
     );
 };
 

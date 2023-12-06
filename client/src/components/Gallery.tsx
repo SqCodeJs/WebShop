@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { device } from "../utils/device";
-import { getRanomIndex, selectByRandomIndex } from "../helpers/functions";
-import ProductSampel from "./ProductSampel";
-import { RootState } from "../state/reducers/rootReducer";
-import { Item } from "../../../shared/types/commonTypes";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { device } from '../utils/device';
+import { getRandomIndex, selectByRandomIndex } from '../helpers/functions';
+import ProductSampel from './ProductSampel';
+import { RootState } from '../state/reducers/rootReducer';
+import { Item } from '../../../shared/types/commonTypes';
 
 const Container = styled.div`
     margin: 0 auto;
@@ -43,26 +43,18 @@ const ProductBox = styled.div`
 
 const Gallery = () => {
     const products = useSelector((state: RootState) => state.products);
-    const random = getRanomIndex(products.items.length, 3);
-    const treeRandomProucts = selectByRandomIndex(products.items, random);
-    const [randomProducts, setRandomProducts] = useState<Item[]>([]);
-
-    useEffect(() => {
-        setRandomProducts(treeRandomProucts);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const random = getRandomIndex(products.items.length, 3);
+    const treeRandomProducts = selectByRandomIndex(products.items, random);
 
     return (
-        <>
-            <Container>
-                {randomProducts &&
-                    [...randomProducts].map((product) => (
-                        <ProductBox key={product.id}>
-                            <ProductSampel product={product} />
-                        </ProductBox>
-                    ))}
-            </Container>
-        </>
+        <Container>
+            {treeRandomProducts &&
+                treeRandomProducts.map((product) => (
+                    <ProductBox key={product.id}>
+                        <ProductSampel product={product} />
+                    </ProductBox>
+                ))}
+        </Container>
     );
 };
 

@@ -8,6 +8,10 @@ import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/reducers/rootReducer';
+import Gallery from '../../Gallery';
+import Columns from '../../Columns';
+import LastAdd from '../../LastAdd';
+import Newsletter from '../../Newsletter';
 const Wrapp = styled.div`
   width: 100%;
 
@@ -34,13 +38,19 @@ const Home = () => {
     const { flags } = useSelector((state: RootState) => state);
     const { navigation: isOpenNav } = flags;
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down(767));
-    return (
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-        <Wrapp>
-            {isOpenNav || !isMobile ? (<Navigation render={renderMainNavigation} />) : ''}
-            <Slider />
-        </Wrapp>
+    return (
+        <div>
+            <Wrapp>
+                {isOpenNav || !isMobile ? (<Navigation render={renderMainNavigation} />) : ''}
+                <Slider />
+            </Wrapp>
+             <Gallery /> 
+            <Columns />
+            <Newsletter />
+            <LastAdd />
+        </div>
     );
 };
 

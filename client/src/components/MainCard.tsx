@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "./atoms/Icon";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Wrapp, Title, Description } from "../utils/styledComponents";
@@ -6,6 +6,11 @@ import styled from "styled-components";
 import EmptyBasket from "./EmptyBasket";
 import { device } from "../utils/device";
 import { Item } from "../../../shared/types/commonTypes";
+import { RootState } from "../state/reducers/rootReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBasket } from "../state/actions/basketActions";
+import { BasketItem } from "../types/types";
+
 const WrappCard = styled(Wrapp)`
   width: 100%;
 
@@ -190,16 +195,11 @@ const SecondPart = styled(FirstPart)`
   align-items: center;
 `;
 
-interface Props {
-    basket: (Item & { quantity: number; })[];
-    removeItem: (id: number) => void;
+const MainCard = () => {
 
-}
-
-const MainCard: React.FC<Props> = ({ basket, removeItem }) => {
-    const [state, setState] = useState(
-        basket.map((e) => ({ ...e, worth: e.price * e.quantity }))
-    );
+    const basket = useSelector((state: RootState) => state.basket);
+    const dispatch = useDispatch();
+    const [state, setState] = useState<BasketItem[]>([]);
 
     const setQuantity = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newState = [...state].map((e) => {
@@ -219,6 +219,17 @@ const MainCard: React.FC<Props> = ({ basket, removeItem }) => {
         });
         return total;
     };
+    useEffect(() => {
+        if (basket.items.length > 0) {
+            setState(
+                basket.items.map((e: BasketItem) => ({ ...e, worth: e.price * e.quantity }))
+            );
+        }
+    }, []);
+
+    useEffect(() => {
+        dispatch(updateBasket(state));
+    }, [state, dispatch]);
 
     const cardItems = state.map((item) => (
         <Con key={item.id}>
@@ -240,13 +251,15 @@ const MainCard: React.FC<Props> = ({ basket, removeItem }) => {
                 <DescriptionItem>Wartość: {item.worth}zł</DescriptionItem>
             </SecondPart>
             <IconBox>
-                <ButtonStyled onClick={() => removeItem(item.id)}>
+                <ButtonStyled onClick={() => {
+                    setState(state.filter(element => element.id !== item.id))
+                }}>
                     <Icon icon={faTrashAlt} />
                 </ButtonStyled>
             </IconBox>
-        </Con>
+    </Con>
     ));
-    return basket.length > 0 ? (
+    return basket.items.length > 0 ? (
         <WrappCard>
             <Total>
                 <ProductPrice>
