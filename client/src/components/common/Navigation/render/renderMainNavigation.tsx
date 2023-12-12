@@ -1,10 +1,12 @@
-import styled, { keyframes } from "styled-components";
-import { Link } from "react-router-dom";
-import { device } from "../../../../utils/device";
-import { useSelector } from "react-redux";
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+import { Link, useLocation } from 'react-router-dom';
+import { device } from '../../../../utils/device';
+import { useSelector } from 'react-redux';
 import { NavigationList } from '../../../../types/types';
-import { RootState } from "../../../../state/reducers/rootReducer";
-import Icon from "../../../atoms/Icon";
+import { RootState } from '../../../../state/reducers/rootReducer';
+import Icon from '../../../atoms/Icon';
+import { Typography, useMediaQuery, useTheme } from '@mui/material';
 
 const appear = keyframes`
     0% {
@@ -26,43 +28,42 @@ const slideIn = keyframes`
     }
 `;
 
-const Container = styled.div<{ isOpenNav: boolean; }>`
+const Container = styled.div<{ isOpenNav: boolean; isHome: boolean }>`
     position: absolute;
     top: 48px;
-    left:0;
+    left: 0;
     right: 0;
-    bottom:0;
+    bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
-    color:#fafafa;
+    color: #fafafa;
     transition: height 0.3s ease;
     z-index: 2;
     background-color: #3aa0e9;
-    z-index: 2;
 
     @media ${device.tablet} {
-        padding: 10px 0;
         display: flex;
+        margin-bottom: 16px;
         position: static;
         flex-grow: 0;
         border-radius: 30px;
         box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
         background-color: unset;
-
     }
 
     @media ${device.laptop} {
-        width: 20%;
-        padding: 2%;
-    } 
+        width: ${({ isHome }) => (isHome ? '25%' : '100%')};
+        padding: ${({ isHome }) => (isHome ? '20px 10px' : '0')};
+        margin: 0;
+    }
 `;
 
-const UlStyled = styled.ul`
+const UlStyled = styled.ul<{ isHome: boolean }>`
     color: white;
     width: 100%;
     list-style: none;
-    padding: 20px 5px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     overflow: auto;
@@ -71,15 +72,14 @@ const UlStyled = styled.ul`
         flex-direction: row;
         color: #3aa0e9;
         padding: 0 12px;
-
     }
 
     @media ${device.laptop} {
-        flex-direction: column;
+        flex-direction: ${({ isHome }) => (isHome ? 'column' : 'row')};
     }
 `;
 
-const LiStyled = styled.li`
+const LiStyled = styled.li<{ isHome: boolean }>`
     width: 95%;
     display: flex;
     justify-content: flex-start;
@@ -95,9 +95,9 @@ const LiStyled = styled.li`
         width: auto;
         flex-grow: 1;
     }
+
     @media ${device.laptop} {
-        margin: 2px;
-        border-bottom: 1px solid rgb(169, 169, 169);
+        margin: ${({ isHome }) => (isHome ? '2px' : 'row')};
     }
 
     &:hover {
@@ -105,7 +105,7 @@ const LiStyled = styled.li`
     }
 `;
 
-const LinkStyl = styled(Link) <{ delay: number; }>`
+const LinkStyl = styled(Link) <{ delay: number }>`
     display: flex;
     align-items: center;
     background-color: transparent;
@@ -113,6 +113,10 @@ const LinkStyl = styled(Link) <{ delay: number; }>`
     padding: 4px 0;
     animation: 0.5s ${slideIn} forwards;
     animation-delay: ${(props) => (props.delay ? `${props.delay}s` : '')};
+
+    &:visited {
+        color: unset;
+    }
 `;
 
 const Column = styled.div`
@@ -121,66 +125,18 @@ const Column = styled.div`
     color: #ffffff;
 
     &:hover {
-        color: #ece8e8
-    }
-    @media ${device.tablet} {
-        color: #3aa0e9;
-    }
-`;
-
-const Title = styled.h2`
-    font-family: Roboto, sans-serif;
-    font-weight: 100;
-
-    @media ${device.tablet} {
-        font-size: 16px;
-    }
-`;
-
-const Paragraf = styled(Title)`
-    font-weight: 400;
-    letter-spacing: 1px;
-    font-size: 10px;
-
-    @media ${device.mobileS} {
-        font-size: 14px;
+        color: #e8e1e1;
     }
 
     @media ${device.tablet} {
-        margin: 1px;
-        font-size: 12px;
-    }
+        color: #818181;
 
-    @media ${device.laptop} {
-        margin: 4px 2px;
-        font-size: 14px;
+        &:hover {
+        color: #1684d3;
+    }
     }
 `;
 
-const Description = styled(Title)`
-    display: none;
-    margin-bottom: 2px;
-    letter-spacing: 1px;
-
-    @media ${device.mobileM} {
-        display: block;
-        font-size: 12px;
-    }
-
-    @media ${device.tablet} {
-        display: none;
-    }
-
-    @media ${device.laptop} {
-        display: block;
-        font-size: 12px;
-    }
-
-    @media ${device.laptopL} {
-        margin-bottom: 10px;
-        font-size: 14px;
-  }
-`;
 const IconBox = styled.div`
     width: 20px;
     height: 20px;
@@ -193,6 +149,10 @@ const IconBox = styled.div`
             color: #3aa0e9 !important;
         }
     }
+
+    @media ${device.laptop} {
+        margin-right: 20px;
+    }
 `;
 
 interface Props {
@@ -200,26 +160,35 @@ interface Props {
 }
 
 const RenderMainNavigation: React.FC<Props> = ({ nav }) => {
-    const { navigation: isOpenNav } = useSelector((state: RootState) => state.flags);
+    const { navigation: isOpenNav } = useSelector(
+        (state: RootState) => state.flags,
+    );
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const location = useLocation();
+    const isHome = location.pathname === '/';
 
     const navigation = nav.map((item, index) => (
-        <LiStyled
-            key={item.name}
-        >
+        <LiStyled isHome={isHome} key={item.name}>
             <LinkStyl to={item.path} delay={index * 0.1}>
                 <IconBox>
-                    <Icon icon={item.icon} /></IconBox>
+                    <Icon icon={item.icon} />
+                </IconBox>
                 <Column>
-                    <Paragraf>{item.name}</Paragraf>
-                    <Description>{item.description}</Description>
+                    <Typography variant="body1">{item.name}</Typography>
+                    {isMobile && (
+                        <Typography variant="body2">
+                            {item.description}
+                        </Typography>
+                    )}
                 </Column>
             </LinkStyl>
         </LiStyled>
     ));
 
     return (
-        <Container isOpenNav={isOpenNav}>
-            <UlStyled>{navigation}</UlStyled>
+        <Container className="container" isOpenNav={isOpenNav} isHome={isHome}>
+            <UlStyled isHome={isHome}>{navigation}</UlStyled>
         </Container>
     );
 };

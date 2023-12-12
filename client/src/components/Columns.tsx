@@ -1,14 +1,18 @@
-import React, { useMemo, useEffect, useState } from "react";
-import { getRandomIndex, selectByRandomIndex } from "../helpers/functions";
-import { useSelector } from "react-redux";
-import { device } from "../utils/device";
-import styled from "styled-components";
-import ProductSampel from "./ProductSampel";
-import { Wrapp, GalleryTitle, Img, Position, PageWrapper } from "../utils/styledComponents";
-import { RootState } from "../state/reducers/rootReducer";
-import { Item } from "../../../shared/types/commonTypes";
-import useTheme from "@mui/material/styles/useTheme";
-import { Theme } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { getRandomIndex, selectByRandomIndex } from '../helpers/functions';
+import { useSelector } from 'react-redux';
+import { device } from '../utils/device';
+import styled from "@emotion/styled"
+import ProductSampel from './ProductSampel';
+import {
+    Wrapp,
+    GalleryTitle,
+    Img,
+    Position,
+    PageWrapper,
+} from '../utils/styledComponents';
+import { RootState } from '../state/reducers/rootReducer';
+import { Item } from '../../../shared/types/commonTypes';
 
 const Sampel = styled.div`
     width: 75%;
@@ -33,21 +37,21 @@ const Sampel = styled.div`
 `;
 
 const Container = styled(PageWrapper)`
-border: 1px solid red;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 0;
+    margin-bottom: 16px;
 
     @media ${device.tablet} {
         flex-direction: row;
     }
 `;
 
-const Aside = styled.aside<{ theme: Theme; }>`
+const Aside = styled.aside`
     width: 100%;
-    padding-top: 2%;
-    //display: flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     border: 2px solid #2d9ae8;
@@ -55,14 +59,12 @@ const Aside = styled.aside<{ theme: Theme; }>`
     border-radius: 30px;
     box-shadow: 0 0 1em rgb(220, 220, 220);
 
-    @media ${device.tablet}  {
-        width: 30%;
+    @media ${device.tablet} {
+        width: 25%;
     }
-    
-
 `;
 
-const TopProducts = styled.div<{theme: Theme}>`
+const TopProducts = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -71,9 +73,8 @@ const TopProducts = styled.div<{theme: Theme}>`
     background-color: #f3f3f3;
     border-radius: 30px;
     @media ${device.tablet} {
-        width: 65%;
+        width: 72%;
     }
-
 `;
 
 const Wrapper = styled(Wrapp)`
@@ -85,24 +86,17 @@ const Wrapper = styled(Wrapp)`
 `;
 
 const Product = styled.div`
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: stretch;
     transition: 0.2s;
 
-    @media ${device.mobileS} {
-        width: 100%;
-    }
-
     @media ${device.tablet} {
-        width: 50%;
-    }
-
-    @media ${device.laptop} {
         width: 30%;
         margin: 1%;
     }
-  
+
     &:hover {
         ${Position} {
             display: block;
@@ -114,35 +108,44 @@ const Product = styled.div`
     }
 `;
 
+const NoProductsInfo = styled(GalleryTitle)`
+    font-size: 14px;
+`;
+
 const Columns = () => {
     const products = useSelector((state: RootState) => state.products);
-    const theme = useTheme();
-    const randomIndexesForAside = getRandomIndex(products.items.length, 4);
-    const randomIndexesForTop = getRandomIndex(products.items.length, 12);
-    console.log(randomIndexesForAside, randomIndexesForTop)
-    const randomAside = useMemo(() => selectByRandomIndex(products.items, randomIndexesForAside), [products.items, randomIndexesForAside]);
-    const randomTop = useMemo(() => selectByRandomIndex(products.items, randomIndexesForTop), [products.items, randomIndexesForTop]);
+    const [randomTop, setRandomTop] = useState<Item[]>([]);
+    const [randomAside, setRandomAside] = useState<Item[]>([]);
 
-    console.log('render',);
+    useEffect(()=>{
+        if(products.items.length) {
+            const randomIndexesForAside = getRandomIndex(products.items.length, 4);
+            const randomIndexesForTop = getRandomIndex(products.items.length, 12);
+            
+            setRandomAside(selectByRandomIndex(products.items, randomIndexesForAside));
+            setRandomTop(selectByRandomIndex(products.items, randomIndexesForTop));
+        }
+    },[products]);
+
     return (
         <Container>
-            <TopProducts theme={theme}>
+            <TopProducts>
                 <GalleryTitle>Najcześciej Kupowanie</GalleryTitle>
-                <Wrapper>{randomTop.map((product) => (
-                    <Product key={product.id}>
-                        <ProductSampel product={product} />
-                    </Product>
-                ))
-                }</Wrapper>
+                <Wrapper>
+                    {randomTop.length ? (randomTop.map((product) => (
+                        <Product key={product.id}>
+                            <ProductSampel product={product} />
+                        </Product>))) : (<NoProductsInfo>Brak Produktów</NoProductsInfo>)
+                    }
+                </Wrapper>
             </TopProducts>
-
-            <Aside theme={theme}>
+            <Aside>
                 <GalleryTitle>Oferty Dnia</GalleryTitle>
-                {randomAside.map((product) => (
+                {randomAside.length ? (randomAside.map((product) => (
                     <Sampel key={product.id}>
                         <ProductSampel product={product} />
-                    </Sampel>
-                ))
+                    </Sampel>)
+                )):  (<NoProductsInfo>Brak Produktów</NoProductsInfo>)
                 }
             </Aside>
         </Container>

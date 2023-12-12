@@ -57,29 +57,22 @@ export const typography = {
         },
     },
     h5: {
-        fontSize: '1.2rem', // 19.2px
-        lineHeight: 1.6, // 30.72px
-        [baseTheme.breakpoints.up('sm')]: {
-            fontSize: '1.4rem', // 22.4px
-        },
+        fontSize: '0.875rem', // 14px for sm breakpoint
+        lineHeight: 1.2,
         [baseTheme.breakpoints.up('md')]: {
-            fontSize: '1.6rem', // 25.6px
+            fontSize: '1rem', // 16px for md breakpoint
         },
         [baseTheme.breakpoints.up('lg')]: {
-            fontSize: '1.8rem', // 28.8px
+            fontSize: '1.125rem', // 18px for lg breakpoint
         },
     },
     h6: {
-        fontSize: '1rem', // 16px
-        lineHeight: 1.7, // 27.2px
-        [baseTheme.breakpoints.up('sm')]: {
-            fontSize: '1.2rem', // 19.2px
-        },
+        fontSize: '0.75rem', // 12px for sm breakpoint
         [baseTheme.breakpoints.up('md')]: {
-            fontSize: '1.4rem', // 22.4px
+            fontSize: '0.875rem', // 14px for md breakpoint
         },
         [baseTheme.breakpoints.up('lg')]: {
-            fontSize: '1.6rem', // 25.6px
+            fontSize: '1rem', // 16px for lg breakpoint
         },
     },
     subtitle1: {
