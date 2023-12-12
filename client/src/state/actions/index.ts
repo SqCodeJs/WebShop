@@ -1,6 +1,6 @@
-import { ActionType } from "../action-types/index";
-import { User, Item } from "../../../../shared/types/commonTypes";
-import { BasketItem } from "../../types/types";
+import { ActionType } from '../action-types/index';
+import { User, Item } from '../../../../shared/types/commonTypes';
+import { BasketItem } from '../../types/types';
 
 interface SetUser {
     type: ActionType.SET_USER;
@@ -22,7 +22,7 @@ interface RemoveFromBasket {
     id: number;
 }
 
-interface updateBasket {
+interface UpdateBasket {
     type: ActionType.UPDATE_BASKET;
     items: BasketItem[];
 }
@@ -32,6 +32,11 @@ interface GetAllProducts {
     items: Item[];
 }
 
+interface SetLoadingProducts {
+    type: ActionType.TOGGLE_LOADING;
+    isLoading: boolean;
+}
+
 interface ToggleFlag {
     type: ActionType.TOGGLE;
     flag: string;
@@ -39,6 +44,6 @@ interface ToggleFlag {
 
 export type AccountAction = SetUser;
 export type MessageAction = SetLogInfo;
-export type BasketAction = AddToBasket | RemoveFromBasket | updateBasket;
-export type ProductsAction = GetAllProducts;
+export type BasketAction = AddToBasket | RemoveFromBasket | UpdateBasket;
+export type ProductsAction = GetAllProducts | SetLoadingProducts;
 export type FlagsAction = ToggleFlag;
