@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { ActionType } from "../action-types";
 import { AccountAction, MessageAction } from "./index";
 import { User } from "../../../../shared/types/commonTypes";
@@ -16,35 +16,32 @@ const handleAuthResponse = (res: AxiosResponse<User>, dispatch: Dispatch<Account
         mail: res.data.mail,
     };
 
-    localStorage.setItem("access_token", res.data.accessToken);
-
     dispatch(setCurrentUser(user));
 };
 
 export function loginAction(data: { mail: string; password: string; }) {
-    return (dispatch: Dispatch<AccountAction | MessageAction>) => {
-        return axios({
-            method: "post",
-            withCredentials: true,
-            url: "http://localhost:3001/login",
-            data,
-        }).then(
-            (res: AxiosResponse<unknown, any>) => {
-                const typedRes = res as AxiosResponse<User>;
+    return async (dispatch: Dispatch<AccountAction | MessageAction>): Promise<void> => {
+        try {
+            const response = await axios.post("http://localhost:3001/login", data, { withCredentials: true });
+            const typedRes = response as AxiosResponse<User>;
+            const { accessToken } = typedRes.data;
 
-                const { accessToken } = typedRes.data;
+            if (accessToken && typedRes.status === 200) {
+                handleAuthResponse(typedRes, dispatch);
+            } else {
+                throw new Error("Login failed");
+            }
+        } catch (error: any) {
+            const axiosError = error as AxiosError;
+            const responseError = axiosError.response?.data;
 
-                if (accessToken && typedRes.status === 200) {
-                    handleAuthResponse(typedRes, dispatch);
-                }
-            },
-            (error) => {
+            if (responseError && typeof responseError === 'object' && 'message' in responseError) {
                 dispatch({
                     type: ActionType.SET_LOG_INFO,
-                    message: error.response?.data?.message || "An error occurred",
+                    message: responseError.message as string,
                 });
-                return Promise.reject(error.response?.status || 500);
             }
-        );
+        }
     };
 }
+
