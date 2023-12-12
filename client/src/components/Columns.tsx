@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getRandomIndex, selectByRandomIndex } from '../helpers/functions';
 import { useSelector } from 'react-redux';
 import { device } from '../utils/device';
-import styled from "@emotion/styled"
+import styled from 'styled-components';
 import ProductSampel from './ProductSampel';
 import {
     Wrapp,

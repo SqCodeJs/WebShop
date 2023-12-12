@@ -92,7 +92,6 @@ const SearchBox = styled('div')`
 
     @media ${device.laptopL} {
         width: 50%;
-        margin-right: 3%;
     }
 `;
 

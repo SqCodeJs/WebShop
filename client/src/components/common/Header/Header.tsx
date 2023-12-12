@@ -21,6 +21,8 @@ import Navigation from '../Navigation/components/Navigation';
 import RenderMainNavigation from '../Navigation/render/renderMainNavigation';
 import Slider from '../../Slider';
 import { toggleFlag } from '../../../state/actions/flagsActions';
+import YourCard from '../../YourCard';
+import BasketCard from '../../BasketCard';
 
 const Container = styled.div`
     display: flex;
@@ -178,13 +180,12 @@ const Header = () => {
                             {loginFlag && (
                                 <LoginPanel loginFlagToggle={loginFlagToggle} />
                             )}
-                            {/* {isHover && (
-                            <YourCard
+                            {isHover && (
+                            <BasketCard
                                 basket={basket.items}
                                 setIsHover={setIsHover}
-                                render={BasketCard}
                             />
-                        )} */}
+                        )}
                         </Icons>
                     </Container>
                 </PageWrapper>

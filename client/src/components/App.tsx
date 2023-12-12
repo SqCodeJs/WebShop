@@ -7,11 +7,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { getDesignTokens } from '../setup/theme';
 import routes from '../routing';
-import Header from './common/header/Header';
+import Header from './common/Header/Header';
 import Footer from './common/Footer/Footer';
 import { Mode } from '../types/types';
 import Newsletter from './Newsletter';
 import LastAdd from './LastAdd';
+import './App.css'
+import { Main } from '../utils/styledComponents';
 
 const GlobalStyle = createGlobalStyle`
  * {
@@ -67,15 +69,17 @@ const App = () => {
                 <GlobalStyle />
                 <Suspense fallback={<div>Loading..</div>}>
                     <Header />
-                    <Routes>
-                        {routes.map((route, index) => (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={<route.component />}
-                            />
-                        ))}
-                    </Routes>
+                    <Main>
+                        <Routes>
+                            {routes.map((route, index) => (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={<route.component />}
+                                />
+                            ))}
+                        </Routes>
+                    </Main>
                     <Newsletter />
                     <LastAdd />
                     <Footer />
