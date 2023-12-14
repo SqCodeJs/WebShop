@@ -8,7 +8,7 @@ import ProductSampel from './ProductSampel';
 import { RootState } from '../state/reducers/rootReducer';
 import { Item } from '../../../shared/types/commonTypes';
 
-const Container = styled.div`
+const Container = styled.section`
     width: 100%;
     margin: 16px auto;
     flex-direction: column;
@@ -18,9 +18,12 @@ const Container = styled.div`
     background-color: #f3f3f3;
 `;
 
-const Wrapper = styled(Wrapp)`
+const Wrapper = styled.div`
     width: 100%;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 16px;
+    padding: 16px; 
 `;
 
 const Sample = styled.div`
@@ -35,27 +38,6 @@ const Sample = styled.div`
     box-shadow: 0 0 1em rgb(200, 200, 200);
     background-color: rgb(192, 192, 192, 0.2);
     transition: 0.2s;
-
-    @media ${device.mobileS} {
-        width: 94%;
-        margin: 3%;
-    }
-    @media ${device.tablet} {
-        width: 46%;
-        margin: 1%;
-    }
-    @media ${device.laptop} {
-        margin: 1%;
-        width: 30%;
-    }
-    @media ${device.laptopL} {
-        margin: 1%;
-        width: 22%;
-    }
-    @media ${device.desktopS} {
-        margin: 1%;
-        width: 18%;
-    }
 `;
 
 const NoProductsInfo = styled(GalleryTitle)`

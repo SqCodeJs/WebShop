@@ -11,27 +11,17 @@ import { Item } from '../../../shared/types/commonTypes';
 const Container = styled.div`
     width: 100%;
     margin: 0 auto 16px;
+    padding: 16px;
     display: flex;
     background-color: #f3f3f3;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 30px;
+    justify-content: space-between;
+    border-radius: 20px;
     box-shadow: 0 0 1em rgb(200 200 200);
 
-    @media ${device.tablet} {
-        flex-direction: row;
-    }
 `;
 
 const ProductBox = styled.div`
-    @media ${device.mobileS} {
-        width: 80%;
-        margin: 2%;
-    }
-
-    @media ${device.tablet} {
-        width: 30%;
-    }
+    width: 30%;
 `;
 
 const NoProductsInfo = styled(GalleryTitle)`

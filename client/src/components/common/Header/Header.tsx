@@ -7,7 +7,7 @@ import { LogoHeader, PageWrapper } from '../../../utils/styledComponents';
 import { RootState } from '../../../state/reducers/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import NavToggle from '../Navigation/components/NavToggle';
-import { useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SearchBar from './SearchBar';
 import Icon from '../../atoms/Icon';
@@ -115,7 +115,7 @@ const Button = styled.button`
 `;
 
 const Header = () => {
-    const { basket, flags } = useSelector((state: RootState) => state);
+    const { basket, flags, account } = useSelector((state: RootState) => state);
     const { navigation: isOpenNav } = flags;
     const [loginFlag, setLoginFlag] = useState(false);
     const [isHover, setIsHover] = useState(false);
@@ -124,6 +124,7 @@ const Header = () => {
     const location = useLocation();
     const isHome = location.pathname === '/';
     const dispatch = useDispatch();
+    const user = account.isAuthenticated && account.user?.name;
 
     const loginFlagToggle = () => {
         setLoginFlag(!loginFlag);
@@ -138,7 +139,7 @@ const Header = () => {
                         : theme.palette.background.paper,
                 }}
             >
-                <PageWrapper>
+                <PageWrapper style={{padding: '6px 16px'}}>
                     <Container>
                         {isMobile && <NavToggle isOpenNav={isOpenNav} />}
                         <LogoHeader to="/">sklep</LogoHeader>
@@ -147,6 +148,20 @@ const Header = () => {
                                 setLoginFlag(false);
                             }}
                         >
+                            <div style={{position: "relative"}}>
+                                {user &&
+                                    (<Typography component='p'
+                                                 variant='caption'
+                                                 color={isMobile ? 'white' : '#2d9ae8'}
+                                                 style={{position: 'absolute',top: "100%", left: '6px', minWidth: '200px'}}
+                                    >
+                                        Hello, {user}
+                                    </Typography>
+                                )}
+                                <LinkButton to="/userpanel">
+                                    <Icon icon={faUser} />
+                                </LinkButton>
+                            </div>
                             {isMobile && (
                                 <Button
                                     onClick={() =>
@@ -156,9 +171,6 @@ const Header = () => {
                                     <Icon icon={faSearch} />
                                 </Button>
                             )}
-                            <LinkButton to="/userpanel">
-                                <Icon icon={faUser} />
-                            </LinkButton>
                             <Button
                                 onClick={() => {
                                     loginFlagToggle();

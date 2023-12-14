@@ -5,7 +5,6 @@ import { device } from '../utils/device';
 import styled from 'styled-components';
 import ProductSampel from './ProductSampel';
 import {
-    Wrapp,
     GalleryTitle,
     Img,
     Position,
@@ -14,33 +13,12 @@ import {
 import { RootState } from '../state/reducers/rootReducer';
 import { Item } from '../../../shared/types/commonTypes';
 
-const Sampel = styled.div`
-    width: 75%;
-    margin: 10% auto;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    box-shadow: 0 0 1em rgb(200 200 200);
-    transition: 0.2s;
-
-    &:hover {
-        ${Position} {
-            display: block;
-        }
-
-        ${Img} {
-            filter: blur(4px);
-        }
-    }
-`;
-
 const Container = styled(PageWrapper)`
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: start;
     padding: 0;
     margin-bottom: 16px;
 
@@ -54,13 +32,15 @@ const Aside = styled.aside`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 16px;
     border: 2px solid #2d9ae8;
     background-color: #f3f3f3;
     border-radius: 30px;
     box-shadow: 0 0 1em rgb(220, 220, 220);
 
     @media ${device.tablet} {
-        width: 25%;
+        width: 30%;
+        margin: 0;
     }
 `;
 
@@ -71,18 +51,27 @@ const TopProducts = styled.div`
     align-items: center;
     overflow: hidden;
     background-color: #f3f3f3;
-    border-radius: 30px;
+    border-radius: 20px;
+    
     @media ${device.tablet} {
-        width: 72%;
+        width: 68%;
     }
 `;
 
-const Wrapper = styled(Wrapp)`
+const Wrapper = styled.div`
     width: 100%;
-    justify-content: center;
-    flex: 1;
-    flex-wrap: wrap;
-    background-color: transparent;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 3fr)); 
+    gap: 16px;
+    padding: 16px; 
+`;
+
+const AsideWrapper = styled(Wrapper)`
+    grid-template-columns: repeat(auto-fill, minmax(160px, 3fr));
+
+    @media ${device.tablet} {
+        grid-template-columns: minmax(200px, 3fr);
+    }
 `;
 
 const Product = styled.div`
@@ -92,10 +81,6 @@ const Product = styled.div`
     justify-content: stretch;
     transition: 0.2s;
 
-    @media ${device.tablet} {
-        width: 30%;
-        margin: 1%;
-    }
 
     &:hover {
         ${Position} {
@@ -141,12 +126,14 @@ const Columns = () => {
             </TopProducts>
             <Aside>
                 <GalleryTitle>Oferty Dnia</GalleryTitle>
+                <AsideWrapper>
                 {randomAside.length ? (randomAside.map((product) => (
-                    <Sampel key={product.id}>
+                    <Product key={product.id}>
                         <ProductSampel product={product} />
-                    </Sampel>)
+                    </Product>)
                 )):  (<NoProductsInfo>Brak Produktów</NoProductsInfo>)
                 }
+                </AsideWrapper>
             </Aside>
         </Container>
     );
