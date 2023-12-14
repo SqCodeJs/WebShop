@@ -14,6 +14,8 @@ export const accountReducer = (
     switch (action.type) {
         case ActionType.SET_USER:
             return { user: action.user, isAuthenticated: true };
+        case ActionType.LOGOUT_USER:
+                return { user: null, isAuthenticated: false }; 
         default:
             return state;
     }

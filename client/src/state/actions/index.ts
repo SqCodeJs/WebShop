@@ -7,6 +7,10 @@ interface SetUser {
     user: User;
 }
 
+interface LogoutUser {
+    type: ActionType.LOGOUT_USER;
+}
+
 interface SetLogInfo {
     type: ActionType.SET_LOG_INFO;
     message: string;
@@ -42,7 +46,7 @@ interface ToggleFlag {
     flag: string;
 }
 
-export type AccountAction = SetUser;
+export type AccountAction = SetUser | LogoutUser;
 export type MessageAction = SetLogInfo;
 export type BasketAction = AddToBasket | RemoveFromBasket | UpdateBasket;
 export type ProductsAction = GetAllProducts | SetLoadingProducts;
