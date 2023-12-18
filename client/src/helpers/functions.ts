@@ -29,7 +29,6 @@ function randomNumber(value: number) {
 }
 
 function getRandomIndex(rangeOfNumbers: number, count: number) {
-    console.log('r', rangeOfNumbers, count);
     if (rangeOfNumbers <= 0 || count <= 0 || count > rangeOfNumbers) {
         return [];
     }

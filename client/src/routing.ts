@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import { lazy } from "react";
 import RequireAuth from "./auth/RequireAuth";
 const Home = lazy(() => import('./components/pages/home/Home'));
 const Listing = lazy(() => import('./components/pages/listing/Listing'));
@@ -9,7 +9,6 @@ const Card = lazy(() => import('./components/MainCard'));
 const Error = lazy(() => import('./components/ErrorPage'));
 const UserPanel = lazy(() => import('./components/UserPanel'));
 
-const categories = ['laptops', 'electronic', 'audio', 'phones', 'console', 'watches', 'cameras'];
 const routes = [
     {
         path: '/',

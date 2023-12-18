@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { device } from '../utils/device';
-import { Wrapp, GalleryTitle, PageWrapper } from '../utils/styledComponents';
+import { GalleryTitle, PageWrapper } from '../utils/styledComponents';
 import { getRandomIndex, selectByRandomIndex } from '../helpers/functions';
 import ProductSampel from './ProductSampel';
 import { RootState } from '../state/reducers/rootReducer';

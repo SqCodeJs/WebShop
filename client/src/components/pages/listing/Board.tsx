@@ -42,7 +42,7 @@ const Board: React.FC<Props> = ({ filterProducts, price }) => {
                 <ProductSampel product={product} />
             </Product>
         ));
-    console.log('l', list);
+    
     return (
         <WrappBoard>
             {list.length ? (

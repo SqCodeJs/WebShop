@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { device } from '../utils/device';
 import { getRandomIndex, selectByRandomIndex } from '../helpers/functions';
 import ProductSampel from './ProductSampel';
 import { RootState } from '../state/reducers/rootReducer';
