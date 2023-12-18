@@ -1,13 +1,17 @@
-import React from "react";
-import "typeface-roboto";
-import styled from "styled-components";
-import { Title } from "../../../utils/styledComponents";
-import Navigation from "../../common/Navigation/components/Navigation";
-import renderCategoriesNavigation from "../../common/Navigation/render/renderCategoriesNavigation";
-import { device } from "../../../utils/device";
-import { Item } from "../../../../../shared/types/commonTypes";
+import React from 'react';
+import 'typeface-roboto';
+import styled from 'styled-components';
+import Navigation from '../../common/Navigation/components/Navigation';
+import renderCategoriesNavigation from '../../common/Navigation/render/renderCategoriesNavigation';
+import { device } from '../../../utils/device';
+import { Item } from '../../../../../shared/types/commonTypes';
+import { Typography} from '@mui/material';
+import Slider from '@mui/material/Slider';
 
 const LiStyled = styled.li`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     padding: 5px;
     font-family: Roboto, sans-serif;
@@ -20,23 +24,28 @@ const LiStyled = styled.li`
 
     &:hover {
         color: #2d9ae8;
+        background-color: rgba(0, 0, 0, 0.04);
     }
 `;
 
-const Container = styled.div`
-    padding: 2%;
-    width: 25%;
-    height: auto;
+const Container = styled.aside`
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
+    padding: 10px;
+    border: 2px solid #2d9ae8;
+    background-color: #f3f3f3;
     border-radius: 30px;
+    box-shadow: 0 0 1em rgb(220, 220, 220);
+
+    @media ${device.tablet} {
+        width: 30%;
+        flex-direction: column;
+    }
 `;
 
 const Nav = styled.nav`
     width: 100%;
-    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,58 +54,33 @@ const Nav = styled.nav`
 `;
 
 const UlStyled = styled.ul`
-    width: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
 `;
 
 const Squre = styled.div`
     width: 10px;
     height: 10px;
-`;
-
-const Categories = styled(Title)`
-    text-align: center;
-  
-    @media ${device.mobileS} {
-        font-size: 16px;
-    }
-
-    @media ${device.mobileM} {
-        font-size: 18px;
-    }
-
-    @media ${device.mobileL} {
-        font-size: 24px;
-    }
-
-    @media ${device.tablet} {
-        font-size: 30px;
-    }
-
-    @media ${device.laptop} {
-        font-size: 36px;
-    }
-
-    @media ${device.laptopL} {
-        font-size: 42px;
-    }
+    border: 0.5px solid #666;
 `;
 
 const ColorElement = styled.p`
     font-size: 12px;
-    @media ${device.mobileM} {
-        font-size: 14px;
-    }
+    width: 70%;
 
     @media ${device.tablet} {
-        font-size: 16px;
+        font-size: 14px;
     }
+`;
 
-    @media ${device.laptop} {
-        font-size: 18px;
-    }
-
-    @media ${device.laptopL} {
-        font-size: 20px;
+const Element = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media ${device.tablet} {
+        display: block;
+        width: 100%;
     }
 `;
 
@@ -104,26 +88,30 @@ interface Props {
     DB: Item[];
     productsList: Item[];
     setFilterProducts: React.Dispatch<React.SetStateAction<Item[]>>;
-    price: number;
-    setPrice: React.Dispatch<React.SetStateAction<number>>;
+    price: number[];
+    handlePriceChange: (event: Event, newValue: number | number[]) => void;
 }
+
 const FilterSide: React.FC<Props> = ({
     DB,
     productsList,
     setFilterProducts,
     price,
-    setPrice,
+    handlePriceChange,
 }) => {
     const colors = [
-        { color: "black", style: { backgroundColor: "black" } },
-        { color: "white", style: { backgroundColor: "white" } },
-        { color: "yellow", style: { backgroundColor: "yellow" } },
+        { color: 'black', style: { backgroundColor: 'black' } },
+        { color: 'white', style: { backgroundColor: 'white' } },
+        { color: 'yellow', style: { backgroundColor: 'yellow' } },
     ];
+
     const colorList = colors.map((element) => (
         <LiStyled
             key={element.color}
             onClick={() =>
-                setFilterProducts(productsList.filter((e) => e.color === element.color))
+                setFilterProducts(
+                    productsList.filter((e) => e.color === element.color),
+                )
             }
         >
             <Squre style={element.style}></Squre>
@@ -133,29 +121,40 @@ const FilterSide: React.FC<Props> = ({
 
     return (
         <Container>
-            <Categories>Categories</Categories>
-            <Nav>
-                <UlStyled>
-                    <Navigation
-                        //DB={DB}
-                        //productsList={productsList}
-                        //setFilterProducts={setFilterProducts}
-                        render={renderCategoriesNavigation}
-                    />
-                </UlStyled>
-            </Nav>
-            <Categories>Filter Color</Categories>
-            <UlStyled>{colorList}</UlStyled>
-            <Categories>Filter Price</Categories>
-            <input
-                type="range"
-                min="1"
-                max="100"
-                step="5"
-                value={price}
-                onChange={(e) => setPrice(+e.target.value)}
-            ></input>
-            {price}
+            <Element>
+                <Typography variant="h5" color="#666" style={{ padding: '16px 0' }}>
+                    Categories
+                </Typography>
+                <Nav>
+                    <UlStyled>
+                        <Navigation
+                            render={renderCategoriesNavigation}
+                        />
+                    </UlStyled>
+                </Nav>
+            </Element>
+            <Element>
+                <Typography variant="h5" color="#666" style={{ padding: '16px 0' }}>
+                    Filter Color
+                </Typography>
+                <UlStyled>{colorList}</UlStyled>
+            </Element>
+            <Element>
+                <Typography variant="h5" color="#666" style={{ padding: '16px 0' }}>
+                    Filter Price
+                </Typography>
+                <Slider
+                    style={{ color: '#2d9ae8', width: '50%',position: 'relative', left: '12px' }}
+                    getAriaLabel={() => 'Price Range'}
+                    value={price}
+                    onChange={handlePriceChange}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={() => `${price}`}
+                    min={100}
+                    max={10000}
+                    step={100}
+                />
+            </Element>
         </Container>
     );
 };
