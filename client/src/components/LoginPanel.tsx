@@ -1,68 +1,63 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { device } from "../utils/device";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Wrapp = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 999999;
+    background-color: white;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    inset: 0;
+    height: 100vh;
 
-  right: 0;
+    @media ${device.tablet} {
+        position: absolute;
+        width: 300px;
+        height: 400px;
+        top: 28px;
+        left: unset;
+    }
 
-  z-index: 99;
-
-  height: 400px;
-  background-color: white;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  @media ${device.default} {
-    top: 36px;
-    width: 220px;
-  }
-  @media ${device.mobileM} {
-    top: 42px;
-    width: 320px;
-  }
-  @media ${device.tablet} {
-    top: 52px;
-  }
-  @media ${device.laptop} {
-    top: 58px;
-  }
 `;
 const Container = styled.div`
-  width: 100%;
-  padding: 5px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    padding: 5px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
+
 const Strap = styled.div`
-  width: 100%;
-  height: 5px;
-  background-image: linear-gradient(to right, #21a2fd, #be38ff 50%, #21a2fd);
-  background-repeat: no-repeat;
+    width: 100%;
+    height: 5px;
+    background-image: linear-gradient(to right, #21a2fd, #be38ff 50%, #21a2fd);
+    background-repeat: no-repeat;
 `;
+
 const Paragraf = styled.p`
-  margin: 5px;
-  font-size: 14px;
-  text-align: center;
-  font-family: Open Sans, sans-serif;
-  font-weight: 100;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    font-family: Open Sans, sans-serif;
+    font-weight: 100;
 `;
 const LinkStyled = styled(Link)`
-  width: 100%;
-  background-color: white;
-  text-decoration: none;
-  color: #2d9ae8;
-  font-size: 16px;
-  padding: 10px;
-  &:hover {
-    border: 1px solid #2d9ae8;
-  }
+    width: 100%;
+    background-color: white;
+    text-decoration: none;
+    color: #2d9ae8;
+    font-size: 16px;
+    padding: 10px;
+  
+    &:hover {
+        border: 1px solid #2d9ae8;
+    }
 `;
 
 const Button = styled.button`
@@ -73,10 +68,22 @@ const Button = styled.button`
   background-color: white;
   font-weight: 100;
   color: #2d9ae8;
-
   border: 1px solid transparent;
-
   cursor: pointer;
+`;
+
+const RoundButton = styled.button`
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
 `;
 
 interface Props {
@@ -84,9 +91,13 @@ interface Props {
 }
 
 const LoginPanel: React.FC<Props> = ({ loginFlagToggle }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    
     return (
         <Wrapp>
             <Strap></Strap>
+            {isMobile && <RoundButton onClick={loginFlagToggle}>x</RoundButton>}
             <Container>
                 <Paragraf>Zaloguj się, aby zobaczyć swoje powiadomienia.</Paragraf>
                 <Button onClick={loginFlagToggle}>

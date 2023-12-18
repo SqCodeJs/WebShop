@@ -1,4 +1,7 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { Item } from "../../../shared/types/commonTypes";
+
+export type Mode = 'light' | 'dark';
 
 export interface NavigationList {
     name: string;
@@ -15,4 +18,9 @@ export interface UserValiadationData {
     mail: string,
     password: string,
     confirmPassword: string,
+}
+
+export interface BasketItem extends Item {
+    worth: number;
+    quantity: number;
 }

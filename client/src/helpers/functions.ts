@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { UserValiadationData } from '../types/types';
-
+import Axios from 'axios';
+import { UserValiadationData, Mode } from '../types/types';
+import { Item } from '../../../shared/types/commonTypes';
 
 function includedNumber(str: string): boolean {
     const arr = Array.from(str);
@@ -12,7 +12,7 @@ function isBigLetter(str: string): boolean {
 }
 
 function isSmallLetter(str: string): boolean {
-    return [...str].some((e) => "a" <= e && e <= "z");
+    return [...str].some((e) => 'a' <= e && e <= 'z');
 }
 
 function isPasswordCorrect(password: string, strlength = 8) {
@@ -28,37 +28,40 @@ function randomNumber(value: number) {
     return Math.floor(Math.random() * value) + 1;
 }
 
-function getRanomIndex(rangeOfNumbers: number, count: number) {
+function getRandomIndex(rangeOfNumbers: number, count: number) {
+    if (rangeOfNumbers <= 0 || count <= 0 || count > rangeOfNumbers) {
+        return [];
+    }
+
     const arr: number[] = [];
 
-    for (let i = 0; i < count;) {
+    while (arr.length < count) {
         let num = Math.floor(Math.random() * rangeOfNumbers);
 
-        while (!arr.some((e) => e === num)) {
+        if (!arr.includes(num)) {
             arr.push(num);
-            i++;
         }
     }
+
     return arr;
 }
 
-// todo types
-function selectByRandomIndex(arr: any, indexArr: any) {
-    const arrCopy = [...arr];
-    const indexArrCopy = [...indexArr];
+function selectByRandomIndex(arr: Item[], indexArr: number[]) {
+    const arrCopy = arr.slice();
+    const indexArrCopy = indexArr.slice();
     return arrCopy.filter((element, index) =>
-        indexArrCopy.some((item, i) => index === item)
+        indexArrCopy.some((item) => index + 1 === item),
     );
 }
 
 function isMailCorrect(mailAddress: string) {
     if (mailAddress === undefined) return 0;
-    const indexOfAt = mailAddress.indexOf("@");
+    const indexOfAt = mailAddress.indexOf('@');
 
     if (indexOfAt < 0 || mailAddress.length === 0) return false;
     const slicedMail = mailAddress.slice(indexOfAt + 1);
-    if (!slicedMail.includes(".")) return false;
-    const indexDot = slicedMail.indexOf(".");
+    if (!slicedMail.includes('.')) return false;
+    const indexDot = slicedMail.indexOf('.');
     const slicedFromDot = slicedMail.slice(indexDot);
 
     if (
@@ -70,7 +73,7 @@ function isMailCorrect(mailAddress: string) {
 }
 const getAxios = async (url: string) => {
     return Axios({
-        method: "GET",
+        method: 'GET',
         withCredentials: true,
         url: url,
     }).catch((error) => {
@@ -78,16 +81,16 @@ const getAxios = async (url: string) => {
     });
 };
 //todo types
-const doFetch = (url: string, method: string = "POST", body: any = null) => {
+const doFetch = (url: string, method: string = 'POST', body: any = null) => {
     const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-    headers.append("pragma", "no-cache");
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('pragma', 'no-cache');
 
     const params: RequestInit = {
         method,
         headers,
-        credentials: "include" as RequestCredentials, // Konwersja na RequestCredentials
+        credentials: 'include' as RequestCredentials, // Konwersja na RequestCredentials
     };
 
     if (body !== null && body !== undefined) {
@@ -100,9 +103,9 @@ const doFetch = (url: string, method: string = "POST", body: any = null) => {
 const fetchPost = async (url: string, body: Record<string, unknown>) => {
     try {
         const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify(body),
         });
 
@@ -112,29 +115,27 @@ const fetchPost = async (url: string, body: Record<string, unknown>) => {
 
         return await response.json();
     } catch (error) {
-        console.error("Błąd:", error);
+        console.error('Błąd:', error);
     }
 };
+
 
 const fetchGet = async (url: string) => {
-    try {
-        const response = await fetch(url);
+    const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error("Błąd:", error);
+    if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
     }
+
+    return await response.json();
 };
+
 
 const fetchPut = async (url: string, body: Record<string, unknown>) => {
     try {
         const response = await fetch(url, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
         });
 
@@ -144,10 +145,9 @@ const fetchPut = async (url: string, body: Record<string, unknown>) => {
 
         return await response.json();
     } catch (error) {
-        console.error("Błąd:", error);
+        console.error('Błąd:', error);
     }
 };
-
 
 const submitNewUser = (url: string, body: {}) => {
     return fetchPut(url, body);
@@ -168,13 +168,20 @@ const validationUser = ({
         isPasswordCorrect(password)
     );
 };
+
+const getPreferredTheme = (): Mode => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+};
+
 export {
     includedNumber,
     isBigLetter,
     isSmallLetter,
     isPasswordCorrect,
     randomNumber,
-    getRanomIndex,
+    getRandomIndex,
     selectByRandomIndex,
     isMailCorrect,
     getAxios,
@@ -184,4 +191,5 @@ export {
     fetchPut,
     submitNewUser,
     validationUser,
+    getPreferredTheme,
 };

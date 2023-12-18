@@ -3,11 +3,13 @@ import { FlagsAction } from '../actions';
 
 interface State {
     navigation: boolean;
+    search: boolean;
     [key: string]: boolean;
 }
 
 const initialState: State = {
-    navigation: false
+    navigation: false,
+    search: false,
 };
 
 export const flagsReducer = (state = initialState, action: FlagsAction) => {

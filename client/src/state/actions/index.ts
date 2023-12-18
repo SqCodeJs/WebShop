@@ -1,9 +1,14 @@
-import { ActionType } from "../action-types/index";
-import { User, Item } from "../../../../shared/types/commonTypes";
+import { ActionType } from '../action-types/index';
+import { User, Item } from '../../../../shared/types/commonTypes';
+import { BasketItem } from '../../types/types';
 
 interface SetUser {
     type: ActionType.SET_USER;
     user: User;
+}
+
+interface LogoutUser {
+    type: ActionType.LOGOUT_USER;
 }
 
 interface SetLogInfo {
@@ -13,7 +18,17 @@ interface SetLogInfo {
 
 interface AddToBasket {
     type: ActionType.ADD_TO_BASKET;
-    item: Item & { quantity: number; };
+    item: BasketItem;
+}
+
+interface RemoveFromBasket {
+    type: ActionType.REMOVE_FROM_BASKET;
+    id: number;
+}
+
+interface UpdateBasket {
+    type: ActionType.UPDATE_BASKET;
+    items: BasketItem[];
 }
 
 interface GetAllProducts {
@@ -21,13 +36,18 @@ interface GetAllProducts {
     items: Item[];
 }
 
+interface SetLoadingProducts {
+    type: ActionType.TOGGLE_LOADING;
+    isLoading: boolean;
+}
+
 interface ToggleFlag {
     type: ActionType.TOGGLE;
     flag: string;
 }
 
-export type AccountAction = SetUser;
+export type AccountAction = SetUser | LogoutUser;
 export type MessageAction = SetLogInfo;
-export type BasketAction = AddToBasket;
-export type ProductsAction = GetAllProducts;
+export type BasketAction = AddToBasket | RemoveFromBasket | UpdateBasket;
+export type ProductsAction = GetAllProducts | SetLoadingProducts;
 export type FlagsAction = ToggleFlag;

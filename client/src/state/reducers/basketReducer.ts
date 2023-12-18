@@ -1,10 +1,10 @@
 import { ActionType } from '../action-types';
 import { BasketAction } from '../actions';
-import { Item } from "../../../../shared/types/commonTypes";
-import { Reducer } from 'redux';
+import { Reducer } from 'redux'
+import { BasketItem } from '../../types/types';
 
 interface State {
-    items: (Item & { quantity: number; })[];
+    items: BasketItem[];
 }
 
 const initialState: State = {
@@ -14,7 +14,11 @@ const initialState: State = {
 export const basketReducer: Reducer<State, BasketAction> = (state = initialState, action: BasketAction) => {
     switch (action.type) {
         case ActionType.ADD_TO_BASKET:
-            return { ...state.items, items: [...state.items, action.item] };
+            return { ...state, items: [...state.items, action.item] };
+        case ActionType.REMOVE_FROM_BASKET:
+            return { ...state, items: state.items.filter(item => item.id !== action.id) };
+            case ActionType.UPDATE_BASKET:
+                return { ...state, items: action.items };
         default:
             return state;
     }

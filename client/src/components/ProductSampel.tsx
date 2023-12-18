@@ -11,6 +11,7 @@ const SampelImg = styled.img`
 `;
 const Sampel = styled.div`
   width: 100%;
+  height: 100%;
   padding: 2%;
   position: relative;
   display: flex;

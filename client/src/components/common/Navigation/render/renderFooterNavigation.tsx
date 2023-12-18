@@ -1,7 +1,6 @@
 import "typeface-roboto";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { device } from "../../../../utils/device";
 import { NavigationList } from '../../../../types/types';
 
 const Wrapper = styled.div`
@@ -17,7 +16,7 @@ const Wrapper = styled.div`
 
 const LiStyled = styled.li`
     width: 50%;
-    padding: 1%;
+    padding: 8px 0;
     font-family: Roboto, sans-serif;
     color: #444;
     list-style: none;
@@ -40,32 +39,7 @@ const LinkStyl = styled(Link)`
 `;
 
 const Paragraf = styled.p`
-      width: 100%;
-    text-align: center;
-
-    @media ${device.mobileS} {
-        font-size: 8px;
-    }
-
-    @media ${device.mobileM} {
-        font-size: 9px;
-    }
-
-    @media ${device.mobileL} {
-        font-size: 10px;
-    }
-
-    @media ${device.tablet} {
-        font-size: 14px;
-    }
-
-    @media ${device.laptop} {
-        font-size: 16px;
-    }
-
-    @media ${device.laptopL} {
-        font-size: 18px;
-    }
+    font-size: 14px;
 `;
 
 interface Props {
