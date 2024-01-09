@@ -1,5 +1,5 @@
 import { ActionType } from "../action-types";
-import { BasketItem } from "../../types/types";
+import { BasketItem } from "../../../../shared/types/commonTypes";
 
 const addToBasket = (item: BasketItem) => ({
     type: ActionType.ADD_TO_BASKET,
