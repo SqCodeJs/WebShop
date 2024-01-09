@@ -3,7 +3,6 @@ import { OkPacket, RowDataPacket } from 'mysql2';
 import { PartialBasketItem } from '../../../shared/types/commonTypes';
 
 const createOrderHeader = async (userID: number, totalPrice: number): Promise<number> => {
-    console.log("totalPrice", totalPrice)
     const [order] = await db.promise().query<OkPacket>(
         'INSERT INTO Orders (UserID, totalPrice, OrderDate) VALUES (? , ?, NOW())', [userID, totalPrice]
     );

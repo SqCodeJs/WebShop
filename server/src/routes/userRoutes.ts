@@ -1,14 +1,14 @@
 const { Router } = require("express");
-const db = require("../config/db");
-const {
-    putRegister,
-    submitNewUser,
-} = require("../controllers/registerController");
-const router = Router();
 import { Request, Response } from 'express';
+import { postLogin } from '../controllers/loginController';
+import  {
+    putRegister,
+} from "../controllers/registerController";
 
-router.put("/", putRegister);
-// router.post("/", );
+const router = Router();
+
+router.put("/register", putRegister);
+router.post("/login", postLogin);
 
 router.use((request: Request, response: Response) =>
     response.status(404).json({

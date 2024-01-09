@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 
 export const postLogin = async (request: Request, response: Response) => {
-    console.log("postlogin")
     try {
         const { mail, password } = request.body;
 

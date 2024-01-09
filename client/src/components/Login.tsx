@@ -92,7 +92,7 @@ const LoginParagraf = styled(Paragraf)`
 
 const Login = () => {
     const loginMessage = useSelector((state: RootState) => state.message.loginInfo);
-    const [data, setData] = useState<{ mail: string; password: string; }>({ mail: "", password: "" });
+    const [data, setData] = useState<{ mail: string; password: string; }>({ mail: "tomek.bilka@gmail.com", password: "qwerty123Q" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

@@ -1,6 +1,5 @@
 import db from "../config/db";
 import { QueryError, RowDataPacket } from "mysql2";
-import {Account} from '../../../shared/types/commonTypes'
 
 interface User {
     id: number;
@@ -13,7 +12,6 @@ export const isUserInDB = (mail: string): Promise<User | null> => {
     return new Promise((resolve, reject) => {
         const sqlInsert = "SELECT * FROM ShopUsers WHERE mail = ?";
         db.query(sqlInsert, [mail], (err: QueryError | null, result: RowDataPacket[]) => {
-            console.log("res", result)
             if (err) {
                 console.error("Error executing SQL query:", err);
                 reject(err)

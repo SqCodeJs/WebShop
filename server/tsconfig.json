@@ -5,7 +5,7 @@
       "outDir": "./dist",
       "baseUrl": "./",
       "paths": {
-        "*": ["src/*", "shared/*"] // Update this line
+        "*": ["src/*", "shared/*"]
       },
       "strict": true,
       "esModuleInterop": true,
