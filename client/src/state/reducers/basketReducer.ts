@@ -1,7 +1,7 @@
 import { ActionType } from '../action-types';
 import { BasketAction } from '../actions';
 import { Reducer } from 'redux'
-import { BasketItem } from '../../types/types';
+import { BasketItem } from '../../../../shared/types/commonTypes' 
 
 interface State {
     items: BasketItem[];

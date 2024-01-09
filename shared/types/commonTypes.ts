@@ -1,11 +1,15 @@
 export interface User {
-    accessToken: string;
+    id: number
     name: string;
     mail: string;
 }
 
+export interface AuthenticatedUser extends User {
+    accessToken: string;
+}
+
 export interface Account {
-    user: User | null;
+    user: AuthenticatedUser | null;
     isAuthenticated: boolean;
 }
 
@@ -18,4 +22,11 @@ export interface Item {
     image: string;
     color: string;
     tag: string;
+    stock?: number;
+    sold?: number;
 }
+export interface BasketItem extends Item {
+    worth: number;
+    quantity: number;
+}
+export type PartialBasketItem = Pick<BasketItem, 'id' | 'quantity' | 'worth'>

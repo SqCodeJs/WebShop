@@ -14,13 +14,11 @@ export const submitNewUser = (
 
         bcrypt.hash(password, saltRounds, (err, hash) => {
             if (err) {
-                console.log("bcrypt err", err);
                 reject(err);
                 return;
             }
 
             db.query(sqlInsert, [name, lastName, mail, hash], (err, result) => {
-                console.log("rejstacja uzdkownika", err, result);
                 if (err) {
                     reject(err);
                 } else {

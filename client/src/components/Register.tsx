@@ -162,7 +162,7 @@ const Register = () => {
         }
 
         if (validationUser(data) && adultFlag) {
-            await submitNewUser("http://localhost:3001/register", data).then(
+            await submitNewUser("http://localhost:3001/user/register", data).then(
                 (res) => {
                     setRegisterInfo(res);
                 }

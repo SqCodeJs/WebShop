@@ -1,4 +1,4 @@
-module.exports = [
+export const data= [
   {
     id: 1,
     title: "Apple iPhone 13",
