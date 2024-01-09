@@ -1,6 +1,10 @@
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { Request } from "express";
 import { getUserById } from "../services/getUserById";
+import dotenv from 'dotenv';
+import { resolve } from 'path';
+
+const envPath = resolve(__dirname, '../../.env');
+dotenv.config({ path: envPath });
 
 interface JwtPayload {
     id: number;
@@ -16,13 +20,15 @@ export default (passport: any) => {
         new JwtStrategy(opts, async (jwt_payload: JwtPayload, done: any) => {
             try {
                 const user = await getUserById(jwt_payload.id);
-                console.log("elo", jwt_payload);
+                
                 if (user) {
                     return done(null, user);
                 }
+                
                 return done(null, false);
             } catch (error) {
                 console.log(error);
+                return done(error, false)
             }
         })
     );

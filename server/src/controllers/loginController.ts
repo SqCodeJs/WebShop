@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 
 export const postLogin = async (request: Request, response: Response) => {
+    console.log("postlogin")
     try {
         const { mail, password } = request.body;
 
@@ -35,8 +36,9 @@ export const postLogin = async (request: Request, response: Response) => {
                     id: user.id,
                     name: user.name,
                     mail: user.mail,
-                    access_token: `Bearer ${accessToken}`,
+                    accessToken: `Bearer ${accessToken}`,
                 };
+                
                 return response.status(200).json({ ...userState });
             } else response.status(400).json({ message: "wrong password" });
         });

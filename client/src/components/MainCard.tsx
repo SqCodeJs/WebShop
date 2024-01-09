@@ -5,11 +5,13 @@ import { Wrapp, Title, Description } from "../utils/styledComponents";
 import styled from "styled-components";
 import EmptyBasket from "./EmptyBasket";
 import { device } from "../utils/device";
-import { Item } from "../../../shared/types/commonTypes";
+import { BasketItem } from "../../../shared/types/commonTypes";
 import { RootState } from "../state/reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBasket } from "../state/actions/basketActions";
-import { BasketItem } from "../types/types";
+import { useAuthCheck } from "../hooks/useAuthCheck";
+import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const WrappCard = styled(Wrapp)`
   width: 100%;
@@ -195,11 +197,33 @@ const SecondPart = styled(FirstPart)`
   align-items: center;
 `;
 
-const MainCard = () => {
+const Button = styled.button`
+  width: 40%;
+  margin: 10px;
 
+  font-family: Open Sans, sans-serif;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 100;
+
+  padding: 10px;
+  border: 1.5px solid grey;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #2d9ae8;
+    color: white;
+  }
+`;
+
+const MainCard = () => {
     const basket = useSelector((state: RootState) => state.basket);
     const dispatch = useDispatch();
     const [state, setState] = useState<BasketItem[]>([]);
+    const [orderMessage, setOrderMessage] = useState('');
+    const { user } = useAuthCheck();
+    const apiUrl = 'http://localhost:3001/orders/new';
+    const navigate = useNavigate();
 
     const setQuantity = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newState = [...state].map((e) => {
@@ -212,6 +236,7 @@ const MainCard = () => {
 
         setState(newState);
     };
+
     const totalWorth = () => {
         let total = 0;
         state.forEach((element) => {
@@ -219,6 +244,7 @@ const MainCard = () => {
         });
         return total;
     };
+
     useEffect(() => {
         if (basket.items.length > 0) {
             setState(
@@ -252,12 +278,12 @@ const MainCard = () => {
             </SecondPart>
             <IconBox>
                 <ButtonStyled onClick={() => {
-                    setState(state.filter(element => element.id !== item.id))
+                    setState(state.filter(element => element.id !== item.id));
                 }}>
                     <Icon icon={faTrashAlt} />
                 </ButtonStyled>
             </IconBox>
-    </Con>
+        </Con>
     ));
     return basket.items.length > 0 ? (
         <WrappCard>
@@ -282,6 +308,37 @@ const MainCard = () => {
             >
                 suma: {totalWorth()}
             </p>
+            <Button onClick={
+                () => {
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': user!.accessToken,
+                        },
+                        body: JSON.stringify({
+                            items: state.map(element => ({ id: element.id, quantity: element.quantity, worth: element.worth })),
+                            totalPrice: totalWorth()
+                        })
+                    })
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(data => {
+                            setOrderMessage(data.message);
+                            if (data.success) {
+                                setTimeout(() => {
+                                    navigate('/userpanel');
+                                    dispatch(updateBasket([]));
+                                }, 5000);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            }>złóz zamowienie</Button>
+            <Typography variant="caption">{orderMessage}</Typography>
         </WrappCard>
     ) : (
         <EmptyBasket />

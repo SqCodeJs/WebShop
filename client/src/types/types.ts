@@ -1,5 +1,4 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { Item } from "../../../shared/types/commonTypes";
 
 export type Mode = 'light' | 'dark';
 
@@ -20,7 +19,17 @@ export interface UserValiadationData {
     confirmPassword: string,
 }
 
-export interface BasketItem extends Item {
-    worth: number;
-    quantity: number;
+export interface OrderProduct {
+    id: number;
+    quantity: number,
+    name: string;
+    price: number,
+    totalValue: number
+}
+
+export interface Order {
+    OrderDate: string;
+    OrderID: number;
+    totalPrice: number;
+    products: OrderProduct[];
 }

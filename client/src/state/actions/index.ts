@@ -1,10 +1,10 @@
 import { ActionType } from '../action-types/index';
-import { User, Item } from '../../../../shared/types/commonTypes';
-import { BasketItem } from '../../types/types';
+import { AuthenticatedUser, Item } from '../../../../shared/types/commonTypes';
+import { BasketItem } from '../../../../shared/types/commonTypes';
 
 interface SetUser {
     type: ActionType.SET_USER;
-    user: User;
+    user: AuthenticatedUser;
 }
 
 interface LogoutUser {

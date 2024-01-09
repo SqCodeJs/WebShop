@@ -4,18 +4,9 @@ import { useAuthCheck } from "../hooks/useAuthCheck";
 import styled from 'styled-components';
 import { device } from '../utils/device';
 import { useDispatch } from 'react-redux';
-import { logoutUser, removeUserAction, setCurrentUser } from '../state/actions/accountActions';
-interface Order {
-    id: number;
-    product: string;
-    date: string;
-  }
+import { logoutUser, removeUserAction } from '../state/actions/accountActions';
+import { Order, OrderProduct } from '../types/types';
 
-const userOrders = [
-  { id: 1, product: 'Product 1', date: '2023-01-01' },
-  { id: 2, product: 'Product 2', date: '2023-01-02' },
-  // ... inne zamówienia
-];
 const UserPageWrapper = styled(PageWrapper)`
 width: 100%;
 height: 100%;
@@ -87,11 +78,34 @@ const DeleteUserButton = styled.button`
 const UserPanel = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const dispatch = useDispatch();
-    useEffect(() => {
-      // Pobierz zamówienia z API (tu tylko symulacja)
-      setOrders(userOrders);
-    }, []);
     const { user } = useAuthCheck();
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/orders/${user!.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': user!.accessToken,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+
+                const data = await response.json();
+                
+                setOrders(data.orders);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
+
     return (
         <UserPageWrapper>
             <Wrapper>
@@ -99,21 +113,43 @@ const UserPanel = () => {
                     <h2>User Information</h2>
                     <p>Username: {user?.name}</p>
                     <p>Email: {user?.mail}</p>
-                    <DeleteUserButton onClick={()=>dispatch(removeUserAction({id: user!.id}))}>Delete User</DeleteUserButton>
+                    <DeleteUserButton onClick={() => dispatch(removeUserAction({ id: user!.id }))}>Delete User</DeleteUserButton>
                 </UserInfo>
                 <OrdersInfo>
-                    <h2>Last Orders</h2>
-                        {orders.map(order => (
-                            <div key={order.id}>
-                                <p>Product: {order.product}</p>
-                                <p>Date: {order.date}</p>
-                            </div>
-                        ))}
+                    {orders.map(order => (
+                        <div key={order.OrderID} style={{ border: '1px solid #ddd', margin: '10px', padding: '10px' }}>
+                            <p style={{ fontWeight: 'bold' }}>Order ID: {order.OrderID}</p>
+                            <p>Date: {order.OrderDate}</p>
+                            <p>Total Price: {order.totalPrice}</p> 
+                            <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
+                                <thead>
+                                    <tr>
+                                        <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Product Name</th>
+                                        <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Price</th>
+                                        <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Quantity</th>
+                                        <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Total Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {order.products.map((product: OrderProduct) => (
+                                        <tr key={product.id} style={{ border: '1px solid #ddd' }}>
+                                            <td style={{ padding: '8px' }}>{product.name}</td>
+                                            <td style={{ padding: '8px' }}>{product.price}</td>
+                                            <td style={{ padding: '8px' }}>{product.quantity}</td>
+                                            <td style={{ padding: '8px' }}>{product.totalValue}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ))}
+
                 </OrdersInfo>
+
             </Wrapper>
-            <LogoutButton onClick={()=>dispatch(logoutUser())}>Logout</LogoutButton>
+            <LogoutButton onClick={() => dispatch(logoutUser())}>Logout</LogoutButton>
         </UserPageWrapper>
-      );
+    );
 };
 
 export default UserPanel;
