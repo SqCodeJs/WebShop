@@ -12,7 +12,7 @@ type Data = {
 
 };
 
-export const addProductstoDB = (data: Data[]) => {
+export const addProductsToDB = (data: Data[]) => {
     const callback = (data: Data, index: number, arr: Data[]) => {
         const { id, title, price, description, image, cat: category, color, tag } = data;
         const stock = 50;
